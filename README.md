@@ -28,6 +28,8 @@ This repository is provider-neutral:
 - `agents/openai.yaml` - UI metadata for Codex skill discovery
 - `scripts/` - prompt builders, image generation, env bootstrap, and plotting tools
 - `references/` - built-in templates and style references
+- `providers.md` - provider-neutral compatibility notes for official Google and third-party relays
+- `secrets/nanobanana.env.example` - copyable local env template
 
 ## Prerequisites / Requirements
 
@@ -100,6 +102,10 @@ Create these local files outside the repo under:
 - `$HOME/.codex/secrets/nanobanana.env`
 - `$HOME/.codex/secrets/nanobanana_api_key.txt`
 
+You can start from the repository template:
+
+- `secrets/nanobanana.env.example`
+
 Official Google example:
 
 ```env
@@ -144,6 +150,10 @@ Recommended publishing stance:
 - treat the official Google endpoint as the reference configuration
 - treat third-party relays as optional compatibility paths
 - never hardcode your personal relay endpoint or private provider assumptions into shared setup instructions
+
+For more detail, see:
+
+- `providers.md`
 
 ### 3) Run a minimal test
 

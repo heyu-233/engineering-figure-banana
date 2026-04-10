@@ -10,7 +10,9 @@ env/
 # Local secrets / environment
 .env
 .env.*
-secrets/
+secrets/*
+!secrets/
+!secrets/*.example
 
 # Generated outputs
 output/

@@ -149,6 +149,34 @@ This repository can optionally work with a local [AutoFigure-Edit](https://githu
 - This is not a guaranteed built-in one-click conversion path in the upstream project
 - Direct `Banana image -> editable SVG` conversion depends on your local AutoFigure-Edit setup and any wrapper scripts you add around it
 
+## Example Outputs / Screenshots
+
+You can place repository-safe examples under:
+
+- `docs/examples/`
+
+Recommended examples to showcase:
+
+- a system architecture figure
+- an algorithm workflow figure
+- an electronics or embedded-system schematic
+- a benchmark or ablation plot
+- a Chinese-label figure example
+
+Why this section matters:
+
+- it helps visitors understand the visual style before installation
+- it makes the repository look more complete and trustworthy
+- it shows the difference between `image mode` and `plot mode`
+- it gives future users a quick expectation of output quality and supported scenarios
+
+When adding screenshots, prefer:
+
+- publication-style white backgrounds
+- cropped images that focus on the figure itself
+- filenames that explain the scenario, such as `system-architecture-zh.png`
+- examples that do not expose secrets, private data, or copyrighted source figures
+
 ## Troubleshooting
 
 ### `nanobanana_api_key.txt` not found

@@ -163,6 +163,14 @@ Recommended examples to showcase:
 - a benchmark or ablation plot
 - a Chinese-label figure example
 
+Current example:
+
+### Linux Kernel System Diagram
+
+Detailed publication-style Linux kernel architecture overview with user space, system call boundary, kernel subsystems, and hardware layer.
+
+![Linux kernel system diagram](docs/examples/linux-kernel-system-1.jpg)
+
 Why this section matters:
 
 - it helps visitors understand the visual style before installation

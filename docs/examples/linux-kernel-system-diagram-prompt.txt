@@ -1,0 +1,13 @@
+﻿Create a publication-quality system architecture figure for a computer science or engineering paper. Focus on the full module hierarchy, data flow, interfaces, and the role of each functional block.
+
+Clearly show inputs, preprocessing, model or algorithm components, memory or retrieval stores, controllers, hardware accelerators, communication links, and outputs where relevant. Use arrows and short annotations to explain how data, signals, or control messages move through the system. Make the main path explicit and keep side branches visually secondary.
+
+Use a clean white background, balanced panel spacing, concise professional typography, and a colorblind-friendly semantic palette. Blue should emphasize the proposed architecture or core path, green can mark optimized or validated outputs, red can mark bottlenecks, fallback branches, or failure analysis, and non-focal infrastructure should stay neutral gray. Avoid decorative AI-art effects and keep every label legible.
+
+Output at journal-ready resolution with modular blocks suitable for later editing.
+
+Technical Background:
+A detailed Linux operating system kernel architecture diagram for an academic systems paper. The figure should cover the full interaction between user space and kernel space, including user applications, shells, system libraries, POSIX APIs, the system call interface, the scheduler, process management, virtual memory management, page cache, VFS, ext4 or xfs file systems, block layer, device drivers, interrupt handling, network stack, TCP/IP, sockets, netfilter, cgroups, namespaces, security modules, eBPF hooks, IPC, signals, timers, kernel workqueues, slab allocator, and hardware abstraction. Show explicit data flow and control flow among CPU, RAM, storage, NIC, and peripheral devices. Include separate visual regions for user space, system call boundary, core kernel subsystems, and hardware layer. The figure should feel publication-ready, technically accurate, modular, and dense enough for a serious systems paper while remaining legible.
+
+Additional Style Requirement:
+Use the journal-style low-saturation palette with #92B1D9, #C1D8E9, #DBDDEF, #F6C8B6, and #D4D4D4. White background, academic vector-like style, readable English labels, balanced spacing, explicit arrows, modular grouping, no decorative effects, no photorealism. Keep the diagram information-rich and technically detailed, similar to a serious operating-systems textbook or survey-paper architecture overview. Preserve standard English technical abbreviations such as VFS, TCP/IP, IPC, eBPF, POSIX, ext4, xfs, NIC, and CPU.

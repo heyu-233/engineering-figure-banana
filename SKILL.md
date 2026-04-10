@@ -9,6 +9,12 @@ description: Use when the user needs computer science, electronics, algorithms, 
 
 This skill adapts the Nano Banana or Gemini image workflow to computer science, electronics, algorithms, and engineering-paper figures.
 
+It should be treated as a provider-neutral workflow for Gemini-compatible image endpoints:
+
+- prefer the official Google Gemini endpoint as the reference setup
+- allow third-party relays only when the user intentionally chooses them
+- expect model names, auth mode, and high-resolution options to vary by provider
+
 Use two modes:
 
 - `image` mode
@@ -62,11 +68,16 @@ After that, run the normal `generate_image.py` command in the same PowerShell se
 The local secrets files should contain:
 
 - `nanobanana.env`
-  - `NANOBANANA_BASE_URL=https://new.apipudding.com`
-  - `NANOBANANA_DEFAULT_MODEL=<your-default-image-model>`
-  - `NANOBANANA_HIGHRES_MODEL=<your-highres-image-model>`
-  - `NANOBANANA_AUTH_MODE=bearer`
-  - `NANOBANANA_ALLOW_THIRD_PARTY=1`
+  - official Google example:
+    - `NANOBANANA_BASE_URL=https://generativelanguage.googleapis.com`
+    - `NANOBANANA_DEFAULT_MODEL=gemini-3.1-flash-image-preview`
+    - `NANOBANANA_AUTH_MODE=google`
+  - third-party relay example:
+    - `NANOBANANA_BASE_URL=https://your-relay.example.com`
+    - `NANOBANANA_DEFAULT_MODEL=<your-default-image-model>`
+    - `NANOBANANA_HIGHRES_MODEL=<your-highres-image-model>`
+    - `NANOBANANA_AUTH_MODE=bearer`
+    - `NANOBANANA_ALLOW_THIRD_PARTY=1`
   - `NANOBANANA_API_KEY_FILE=.../nanobanana_api_key.txt`
 - `nanobanana_api_key.txt`
   - one line containing the current valid API key
@@ -85,6 +96,12 @@ Recommended model configuration for this customized setup:
 export NANOBANANA_DEFAULT_MODEL="<your-default-image-model>"
 export NANOBANANA_HIGHRES_MODEL="<your-highres-image-model>"
 ```
+
+Provider note:
+
+- official Google and relay providers may use different model names
+- do not assume a single public relay or reseller is the default
+- for shared/public documentation, keep provider-specific endpoints as examples only
 
 If you do not want the API key to appear in shell history, prefer:
 

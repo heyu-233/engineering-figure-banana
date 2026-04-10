@@ -16,6 +16,12 @@ It also includes:
 - journal-friendly low-saturation color guidance
 - optional local handoff notes for AutoFigure-Edit editable-SVG refinement
 
+This repository is provider-neutral:
+
+- it can work with the official Google Gemini API
+- it can also work with third-party Gemini-compatible relays
+- model names, auth mode, and endpoint URL may vary by provider
+
 ## Repository Layout
 
 - `SKILL.md` - main skill instructions
@@ -94,10 +100,19 @@ Create these local files outside the repo under:
 - `$HOME/.codex/secrets/nanobanana.env`
 - `$HOME/.codex/secrets/nanobanana_api_key.txt`
 
-Example `nanobanana.env`:
+Official Google example:
 
 ```env
-NANOBANANA_BASE_URL=https://new.apipudding.com
+NANOBANANA_BASE_URL=https://generativelanguage.googleapis.com
+NANOBANANA_DEFAULT_MODEL=gemini-3.1-flash-image-preview
+NANOBANANA_HIGHRES_MODEL=gemini-3.1-flash-image-preview
+NANOBANANA_AUTH_MODE=google
+```
+
+Third-party relay example:
+
+```env
+NANOBANANA_BASE_URL=https://your-relay.example.com
 NANOBANANA_DEFAULT_MODEL=<your-default-image-model>
 NANOBANANA_HIGHRES_MODEL=<your-highres-image-model>
 NANOBANANA_AUTH_MODE=bearer
@@ -105,6 +120,30 @@ NANOBANANA_ALLOW_THIRD_PARTY=1
 ```
 
 The API key file should contain only your current valid key on one line.
+
+## Provider Compatibility
+
+This skill is designed to be compatible with different provider setups.
+
+Supported patterns:
+
+- official Google Gemini API
+- third-party Gemini-compatible relays
+- custom provider setups that expose a Gemini-like image endpoint
+
+What may differ between providers:
+
+- base URL
+- model naming
+- auth header mode
+- availability of higher-resolution image models
+- whether file or image upload behavior matches the official endpoint exactly
+
+Recommended publishing stance:
+
+- treat the official Google endpoint as the reference configuration
+- treat third-party relays as optional compatibility paths
+- never hardcode your personal relay endpoint or private provider assumptions into shared setup instructions
 
 ### 3) Run a minimal test
 
@@ -219,3 +258,4 @@ When adding screenshots, prefer:
 - Keep local machine paths out of committed examples where possible
 - For exact quantitative figures, prefer the plotting scripts instead of text-to-image generation
 - For Chinese figures, keep labels readable and preserve standard English symbols or formula variables when they improve technical clarity
+- Keep provider-specific endpoints, pricing assumptions, and private relay details out of the public repository unless they are clearly labeled as optional examples

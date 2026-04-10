@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local secrets / environment
+.env
+.env.*
+secrets/
+
+# Generated outputs
+output/
+outputs/
+tmp/
+temp/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -33,18 +33,15 @@ It also includes:
 Recommended Python packages:
 
 - `requests`
-- `matplotlib`
 - `numpy`
-
-Depending on how you use the plotting pipeline, you may also want:
-
+- `matplotlib`
 - `pandas`
 - `seaborn`
 
 Minimal install example:
 
 ```powershell
-pip install requests matplotlib numpy pandas seaborn
+pip install -r requirements.txt
 ```
 
 ## Modes

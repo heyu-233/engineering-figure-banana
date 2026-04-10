@@ -1,4 +1,4 @@
-﻿# Engineering Figure Banana
+# Engineering Figure Banana
 
 A Codex skill for generating publication-style engineering figures with Gemini-compatible image endpoints and for rendering exact quantitative plots locally.
 
@@ -23,6 +23,47 @@ It also includes:
 - `scripts/` - prompt builders, image generation, env bootstrap, and plotting tools
 - `references/` - built-in templates and style references
 
+## Prerequisites / Requirements
+
+- Python 3.10 or newer is recommended
+- Codex skill runtime is required if you want this repository to be discovered and invoked as a Codex skill
+- Node.js is not required for the normal Python workflow, but `scripts/generate_image.js` is available if you want to use the JavaScript version
+- PowerShell is recommended on Windows for loading local secrets with `scripts/load_nanobanana_env.ps1`
+
+Recommended Python packages:
+
+- `requests`
+- `matplotlib`
+- `numpy`
+
+Depending on how you use the plotting pipeline, you may also want:
+
+- `pandas`
+- `seaborn`
+
+Minimal install example:
+
+```powershell
+pip install requests matplotlib numpy pandas seaborn
+```
+
+## Modes
+
+The skill supports two working modes:
+
+- `image mode`
+  - Best for conceptual figures such as system architecture diagrams, algorithm workflows, graphical abstracts, and electronics schematics
+  - Use this when the figure is mainly explanatory and visual structure matters more than exact numeric geometry
+- `plot mode`
+  - Best for benchmark charts, ablation plots, heatmaps, scatter plots, trend curves, and other quantitative publication figures
+  - Use this when exact values, axes, and geometric fidelity matter
+
+Rule of thumb:
+
+- If numeric truth matters, use `plot mode`
+- If the figure is conceptual or schematic, use `image mode`
+- If a figure mixes both, generate the conceptual structure with `image mode` and keep the quantitative panels in `plot mode`
+
 ## Install
 
 Copy this directory into your local Codex user skills directory:
@@ -39,7 +80,15 @@ git clone <your-repo-url> "$HOME/.codex/skills/engineering-figure-banana"
 
 Then restart Codex or open a new Codex session so the skill can be discovered.
 
-## Local Secrets Setup
+## Quick Start in 3 Steps
+
+### 1) Copy the skill
+
+Put this repository at:
+
+- `$HOME/.codex/skills/engineering-figure-banana`
+
+### 2) Configure local secrets
 
 This repository does not include real secrets.
 
@@ -60,13 +109,15 @@ NANOBANANA_ALLOW_THIRD_PARTY=1
 
 The API key file should contain only your current valid key on one line.
 
-## Load Local Env
+### 3) Run a minimal test
+
+Load local env:
 
 ```powershell
 . "$HOME/.codex/skills/engineering-figure-banana/scripts/load_nanobanana_env.ps1"
 ```
 
-## Minimal Image Test
+Run a minimal image-generation test:
 
 ```powershell
 python "$HOME/.codex/skills/engineering-figure-banana/scripts/generate_image.py" `
@@ -75,7 +126,7 @@ python "$HOME/.codex/skills/engineering-figure-banana/scripts/generate_image.py"
   "A retrieval-augmented generation system with OCR, chunking, embedding, vector search, reranking, and answer synthesis."
 ```
 
-## Minimal Prompt-Build Test
+Optional prompt-build test:
 
 ```powershell
 python "$HOME/.codex/skills/engineering-figure-banana/scripts/build_engineering_figure_prompt.py" `
@@ -84,9 +135,54 @@ python "$HOME/.codex/skills/engineering-figure-banana/scripts/build_engineering_
   "A multimodal industrial monitoring workflow for anomaly detection and early warning."
 ```
 
+## Chinese Figure Notes
+
+- Chinese labels can be generated directly in the image
+- Keep Chinese labels concise, readable, and well spaced
+- For dense academic figures, prefer fewer but clearer labels rather than paragraph-like text blocks
+- Preserve standard English symbols, abbreviations, and formula variables where they improve technical clarity
+- Do not force awkward full-Chinese replacements for notation such as `FFT`, `CNN`, `pH`, `IoU`, `loss`, or variables like `x`, `y`, `t`, and `sigma`
+
+## AutoFigure-Edit Handoff
+
+This repository can optionally work with a local [AutoFigure-Edit](https://github.com/ResearAI/AutoFigure-Edit) deployment as a downstream post-processing path.
+
+- Treat Banana as the first-pass draft generation stage
+- Treat AutoFigure-Edit as an optional editable-SVG reconstruction or refinement stage
+- This is not a guaranteed built-in one-click conversion path in the upstream project
+- Direct `Banana image -> editable SVG` conversion depends on your local AutoFigure-Edit setup and any wrapper scripts you add around it
+
+## Troubleshooting
+
+### `nanobanana_api_key.txt` not found
+
+- Make sure the file exists at `$HOME/.codex/secrets/nanobanana_api_key.txt`
+- If you set `NANOBANANA_API_KEY_FILE`, make sure it points to a real file on the current machine
+- If you migrated from another computer, remove stale absolute paths from `nanobanana.env`
+
+### `NANOBANANA_BASE_URL` not set
+
+- Add `NANOBANANA_BASE_URL=...` to `$HOME/.codex/secrets/nanobanana.env`
+- Or pass `--base-url` directly to `generate_image.py`
+- Then reload the env in the same shell session with `load_nanobanana_env.ps1`
+
+### Third-party relay blocked by safety checks
+
+- The generator refuses to send keys or files to non-official Gemini-compatible endpoints unless you explicitly allow it
+- Set `NANOBANANA_ALLOW_THIRD_PARTY=1` in `nanobanana.env`
+- Or pass `--allow-third-party` for that command
+- Only do this when you trust the relay you are using
+
+### Chinese text is too dense or blurry
+
+- Shorten labels and remove paragraph-like text inside the image
+- Ask for larger label regions, cleaner spacing, and centered labels
+- Keep descriptive labels in Chinese, but preserve technical abbreviations and formula variables in English
+- For exact charts, use `plot mode` when geometry matters
+
 ## Notes
 
-- Keep real API keys out of the repository.
-- Keep local machine paths out of committed examples where possible.
-- For exact quantitative figures, prefer the plotting scripts instead of text-to-image generation.
-- For Chinese figures, keep labels readable and preserve standard English symbols or formula variables when they improve technical clarity.
+- Keep real API keys out of the repository
+- Keep local machine paths out of committed examples where possible
+- For exact quantitative figures, prefer the plotting scripts instead of text-to-image generation
+- For Chinese figures, keep labels readable and preserve standard English symbols or formula variables when they improve technical clarity

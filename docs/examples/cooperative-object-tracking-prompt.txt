@@ -1,0 +1,13 @@
+Redraw the attached reference as a publication-quality multi-module architecture figure for cooperative object detection and tracking. Keep the same four-part structure and technical seriousness, but improve clarity, typography, alignment, and visual polish.
+
+Requirements:
+- white background and clean academic layout
+- preserve the four major regions: detection and tracking feature fusion, cooperative object tracking, cooperative object detection feature extraction, and object tracking trajectory feature extraction
+- keep the idea of transformer fusion, intermediate feature sharing, pointpillar backbone, Kalman filter, Hungarian algorithm, trajectory management, and spatial temporal pyramidal network
+- use dashed rounded group boundaries similar to the reference
+- use low-saturation light yellow panels, pale purple outlines, and soft peach highlights like a polished journal figure
+- maintain medium-to-high information density rather than simplifying too aggressively
+- all labels should be sharp and readable
+- arrows must be straight, consistent, and easy to follow
+- square figure, README showcase quality
+- the final result should look like a high-end redrawn engineering diagram based on the reference

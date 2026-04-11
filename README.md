@@ -2,6 +2,19 @@
 
 A Codex-native skill for generating engineering paper figures inside academic workflows. It focuses on computer science, electronics, algorithms, embedded systems, and publication-style benchmark plots.
 
+## Example Gallery
+
+These showcase examples are intentionally placed near the top so visitors can judge output quality immediately.
+
+| Example | Description |
+| --- | --- |
+| ![Federated open-vocabulary driving figure](docs/examples/federated-open-vocab-driving-2k-1.png) | High-density autonomous-driving architecture figure redrawn from a complex reference using the high-resolution path |
+| ![Cooperative object tracking figure](docs/examples/cooperative-object-tracking-2k-1.png) | Clean multi-module cooperative perception and tracking overview redrawn from a paper-style reference |
+| ![Multi-agent safety overview figure](docs/examples/multi-agent-safety-overview-2k-1.png) | Detailed survey-style LLM agent safety overview redrawn from a complex reference with many subpanels |
+| ![Linux kernel system diagram](docs/examples/linux-kernel-system-1.jpg) | Existing engineering showcase example for a dense systems overview |
+
+See `docs/examples/README.md` for the source prompt files and example notes.
+
 ## Token Safety / No Silent Fallback
 
 If you explicitly ask for `pro-2k`, `2K`, high-resolution, or final-export quality, this project is expected to protect your token budget instead of silently downgrading behind your back.
@@ -205,18 +218,7 @@ For more detail, see `providers.md`.
 
 ## Example Outputs / Screenshots
 
-These examples are repository-safe and meant to show the visual direction of the project without exposing private paper material.
-
-### Preview Wall
-
-| Example | Mode | Description |
-| --- | --- | --- |
-| ![Linux kernel system diagram](docs/examples/linux-kernel-system-1.jpg) | `image` | Detailed English system architecture overview |
-| ![RAG workflow](docs/examples/rag-workflow-en.svg) | `image` | Clean workflow figure for an AI pipeline |
-| ![Chinese engineering workflow](docs/examples/industrial-monitoring-zh.svg) | `image` | Chinese engineering figure with preserved English technical terms |
-| ![Benchmark plot](docs/examples/benchmark-ablation-panel.svg) | `plot` | Quantitative publication figure rendered locally |
-
-See `docs/examples/README.md` for the source prompt or request file behind each example.
+The main gallery is shown near the top of this README so visitors can evaluate the visual quality quickly. Additional example notes and source prompts live in `docs/examples/README.md`.
 
 ## Figure Brief Templates
 

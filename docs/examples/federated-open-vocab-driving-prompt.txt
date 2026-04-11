@@ -1,0 +1,13 @@
+Redraw the attached reference as a polished, publication-quality engineering figure for a computer vision and autonomous driving paper. Keep the same overall information density and multi-panel structure, but make the final figure cleaner, sharper, more consistent, and more visually balanced.
+
+Requirements:
+- white background, journal-style layout, crisp readable labels
+- preserve the high-level structure: multiple city clients on the left, shared prototype or prompt modules in the center and upper middle, cross-modal prototype bank on the right, and unseen-city inference block at the lower right
+- preserve the idea of front cameras, sparse LiDAR, local prototype memory, adapter blocks, global aggregation, prototype bank, prompt decomposition, and final open-vocabulary scene understanding
+- keep the figure dense and detailed, comparable to a top-tier CVPR or ICCV paper figure
+- use soft academic colors similar to the reference: light peach, light blue, pale green, neutral gray
+- arrows and block boundaries must be clean and publication-ready
+- make text highly legible and consistent; do not produce blurry small labels
+- do not add decorative art effects; keep it vector-like and technical
+- square composition, suitable for README showcase
+- output should look like a refined redrawn version inspired by the reference, not a low-detail cartoon

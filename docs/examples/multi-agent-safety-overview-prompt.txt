@@ -1,0 +1,12 @@
+Redraw the attached reference as a highly detailed survey-style overview figure for LLM agent and multi-agent system safety. Preserve the dense survey-figure feel, but make it cleaner, more coherent, and more polished for public project showcase use.
+
+Requirements:
+- white background and publication-style organization
+- preserve the broad composition: evaluation and user input on the left, central agent and multi-agent architecture block, safety or defense related panels on the right, and dense lower panels for tool attacks, memory attacks, defenses, and multi-agent attacks/defenses
+- keep the figure complex and information-rich, similar to the reference, not simplified into a toy diagram
+- keep rounded containers, soft academic colors, and many labeled submodules
+- emphasize readability, alignment, and consistent icon sizing
+- use soft blue, pale yellow, light pink, light green, and neutral gray, similar to the reference style
+- ensure the title and section headers are sharp and visually balanced
+- suitable for repository showcase and paper-style visual quality
+- produce a redrawn, cleaner, more professional survey figure inspired by the reference

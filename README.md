@@ -2,6 +2,15 @@
 
 A Codex skill for generating publication-style engineering figures with Gemini-compatible image endpoints and for rendering exact quantitative plots locally.
 
+## Token Safety / No Silent Fallback
+
+If you explicitly ask for `pro-2k`, `2K`, high-resolution, or final-export quality, this project is expected to protect your token budget instead of silently downgrading behind your back.
+
+- High-resolution requests should use the configured high-resolution path, not an unannounced lower-tier substitute
+- If the high-resolution path fails because of missing config, rate limiting, timeout, network trouble, or upstream errors, generation should stop intentionally
+- The workflow must not silently fall back to a cheaper or lower-tier model, because that can waste tokens and produce the wrong quality tier
+- After a high-resolution failure, the correct next step is to ask the human whether to retry high-resolution generation or explicitly allow fallback
+
 ## 5-Minute Quick Start
 
 1. Copy or clone this repository into `$HOME/.codex/skills/engineering-figure-banana`

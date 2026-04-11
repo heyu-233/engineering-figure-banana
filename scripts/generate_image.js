@@ -8,6 +8,7 @@ const OFFICIAL_BASE_URL = "https://generativelanguage.googleapis.com";
 const OFFICIAL_HOSTNAME = "generativelanguage.googleapis.com";
 const DEFAULT_MODEL = process.env.NANOBANANA_MODEL || "gemini-3.1-flash-image-preview";
 const DEFAULT_TIMEOUT = Number(process.env.NANOBANANA_TIMEOUT || "120");
+const HIGHRES_HINTS = ["2k", "highres", "high-res", "high resolution", "final export", "final-export", "final quality"];
 
 function containsChinese(text) {
   return /[\u3400-\u4dbf\u4e00-\u9fff]/.test(text);
@@ -16,6 +17,20 @@ function containsChinese(text) {
 function resolveLang(rawPrompt, requestedLang) {
   if (requestedLang) return requestedLang;
   return containsChinese(rawPrompt) ? "zh" : "en";
+}
+
+function collectHighresHintText(args) {
+  const parts = [args.prompt || "", args.styleNote || "", args.model || ""];
+  if (args.promptFile && fs.existsSync(args.promptFile)) {
+    parts.push(fs.readFileSync(args.promptFile, "utf8"));
+  }
+  return parts.join("\n").toLowerCase();
+}
+
+function isExplicitHighresRequest(args) {
+  if (args.highres) return true;
+  const combined = collectHighresHintText(args);
+  return HIGHRES_HINTS.some((hint) => combined.includes(hint));
 }
 
 function loadMaterialsFigureTemplates() {
@@ -45,6 +60,7 @@ function parseArgs(argv) {
     timeout: DEFAULT_TIMEOUT,
     printPrompt: false,
     allowThirdParty: false,
+    highres: false,
   };
 
   const parts = [...argv];
@@ -71,6 +87,10 @@ function parseArgs(argv) {
     }
     if (key === "--allow-third-party") {
       args.allowThirdParty = true;
+      continue;
+    }
+    if (key === "--highres") {
+      args.highres = true;
       continue;
     }
 
@@ -233,6 +253,23 @@ function resolveApiKey(args) {
   throw new Error("Missing API key. Set NANOBANANA_API_KEY, NANOBANANA_API_KEY_FILE, or pass --api-key.");
 }
 
+function resolveModel(args) {
+  if (args.model && args.model !== DEFAULT_MODEL) {
+    return args.model;
+  }
+  const defaultModel = process.env.NANOBANANA_DEFAULT_MODEL || process.env.NANOBANANA_MODEL || DEFAULT_MODEL;
+  const highresModel = process.env.NANOBANANA_HIGHRES_MODEL || "";
+  if (isExplicitHighresRequest(args)) {
+    if (highresModel) return highresModel;
+    throw new Error(
+      "This request clearly asks for the higher-resolution model, but NANOBANANA_HIGHRES_MODEL is not configured. " +
+      "Generation has been stopped intentionally. Do not silently downgrade to the default model. " +
+      "Ask the human whether to keep retrying high-resolution generation or explicitly allow fallback."
+    );
+  }
+  return args.model || defaultModel;
+}
+
 function buildPayload(args) {
   const parts = [{ text: resolvePrompt(args) }, ...loadInputImages(args.inputImages)];
   const payload = {
@@ -273,13 +310,14 @@ async function requestJson(args) {
   const baseUrl = resolveBaseUrl(args);
   assertEndpointAllowed(baseUrl, args);
   const apiKey = resolveApiKey(args);
+  const model = resolveModel(args);
 
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), args.timeout * 1000);
 
   try {
     const response = await fetch(
-      `${baseUrl}/v1beta/models/${args.model}:generateContent`,
+      `${baseUrl}/v1beta/models/${encodeURIComponent(model)}:generateContent`,
       {
         method: "POST",
         headers: {
@@ -293,9 +331,32 @@ async function requestJson(args) {
 
     if (!response.ok) {
       const text = await response.text();
+      if (response.status === 429 && isExplicitHighresRequest(args)) {
+        throw new Error(
+          "The higher-resolution request was rate limited (HTTP 429). Generation has been stopped intentionally. " +
+          "Do not silently downgrade to the default model. Ask the human whether to retry high-resolution generation " +
+          "or explicitly allow fallback."
+        );
+      }
+      if (isExplicitHighresRequest(args)) {
+        throw new Error(
+          `High-resolution generation failed with HTTP ${response.status}. Generation has been stopped intentionally. ` +
+          `Do not silently downgrade to the default model. Ask the human whether to retry high-resolution generation ` +
+          `or explicitly allow fallback. Response body: ${text}`
+        );
+      }
       throw new Error(`Request failed with HTTP ${response.status}: ${text}`);
     }
     return await response.json();
+  } catch (error) {
+    if (isExplicitHighresRequest(args) && (error.name === "AbortError" || error.message === "fetch failed")) {
+      throw new Error(
+        "High-resolution generation failed due to a network, timeout, or upstream connectivity error. " +
+        "Generation has been stopped intentionally. Do not silently downgrade to the default model. " +
+        "Ask the human whether to retry or explicitly allow fallback."
+      );
+    }
+    throw error;
   } finally {
     clearTimeout(timeoutId);
   }

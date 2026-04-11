@@ -30,6 +30,8 @@ Rule of thumb:
 - Use `NANOBANANA_DEFAULT_MODEL` as the normal model for routine generation.
 - Use `NANOBANANA_HIGHRES_MODEL` only when the user explicitly asks for higher resolution, final-export quality, or specifically mentions `2k`.
 - The script now auto-selects `NANOBANANA_HIGHRES_MODEL` when the request clearly indicates high-resolution output, while keeping the normal default for routine runs.
+- If a user clearly asks for `pro-2k`, 2K, higher-resolution, or final-export quality and that high-resolution path fails, stop immediately instead of silently falling back to a cheaper or lower-tier model.
+- In that failure case, explicitly ask the human whether to retry the high-resolution request or to allow fallback. Do not make that downgrade decision automatically.
 - If a user wants a specific provider model regardless of the auto-selection rules, a one-off `--model` override is still allowed.
 
 ## Quick Start
@@ -145,6 +147,7 @@ python3 scripts/plot_publication_figure.py ./spec.json --out-path ./output/plots
 7. Keep the normal default model for routine work, and use the configured high-resolution model only when the request clearly indicates 2K or final-export quality.
 8. If `NANOBANANA_*` variables are missing, load `scripts/load_nanobanana_env.ps1` first, then run generation in the same shell session.
 9. If the user explicitly names a provider model, use a one-off `--model` override; otherwise let the script choose between `NANOBANANA_DEFAULT_MODEL` and `NANOBANANA_HIGHRES_MODEL`.
+10. If a high-resolution request fails because of rate limits, network problems, upstream errors, or missing `NANOBANANA_HIGHRES_MODEL`, stop and ask the human what to do next. Never silently downgrade and burn tokens on a lower-tier model.
 
 ## Figure Templates
 

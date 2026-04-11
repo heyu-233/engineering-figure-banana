@@ -210,13 +210,27 @@ def resolve_prompt(args: argparse.Namespace) -> str:
     return raw_prompt
 
 
+def collect_highres_hint_text(args: argparse.Namespace) -> str:
+    parts = [args.prompt or "", args.style_note or "", args.model or ""]
+    if args.prompt_file:
+        path = Path(args.prompt_file)
+        if path.is_file():
+            parts.append(path.read_text(encoding="utf-8"))
+    return "\n".join(parts).lower()
+
+
 def should_use_highres_model(args: argparse.Namespace) -> bool:
     if args.highres:
         return True
 
-    prompt = (args.prompt or "").lower()
-    style_note = (args.style_note or "").lower()
-    combined = f"{prompt}\n{style_note}"
+    combined = collect_highres_hint_text(args)
+    return any(hint in combined for hint in HIGHRES_HINTS)
+
+
+def is_explicit_highres_request(args: argparse.Namespace) -> bool:
+    if args.highres:
+        return True
+    combined = collect_highres_hint_text(args)
     return any(hint in combined for hint in HIGHRES_HINTS)
 
 
@@ -227,8 +241,14 @@ def resolve_model(args: argparse.Namespace) -> str:
     default_model = os.getenv("NANOBANANA_DEFAULT_MODEL") or os.getenv("NANOBANANA_MODEL") or DEFAULT_MODEL
     highres_model = os.getenv("NANOBANANA_HIGHRES_MODEL")
 
-    if should_use_highres_model(args) and highres_model:
-        return highres_model
+    if should_use_highres_model(args):
+        if highres_model:
+            return highres_model
+        raise SystemExit(
+            "This request clearly asks for the higher-resolution model, but NANOBANANA_HIGHRES_MODEL is not configured. "
+            "Generation has been stopped intentionally. Do not silently downgrade to the default model. "
+            "Ask the human whether to keep retrying high-resolution generation or explicitly allow fallback."
+        )
     return default_model
 
 
@@ -311,13 +331,29 @@ def request_json(args: argparse.Namespace) -> dict:
     except urllib.error.HTTPError as exc:
         body = exc.read().decode("utf-8", errors="replace")
         if exc.code == 429:
+            if is_explicit_highres_request(args):
+                raise SystemExit(
+                    "The higher-resolution request was rate limited (HTTP 429). Generation has been stopped intentionally. "
+                    "Do not silently downgrade to the default model. Ask the human whether to retry high-resolution generation "
+                    "or explicitly allow fallback."
+                ) from exc
             raise SystemExit(
-                "Upstream rate limited this request (HTTP 429). Wait a bit and retry. "
-                "If this happens repeatedly, reduce request frequency or switch back to the default model "
-                "instead of the higher-resolution 2K variant."
+                "Upstream rate limited this request (HTTP 429). Wait a bit and retry."
+            ) from exc
+        if is_explicit_highres_request(args):
+            raise SystemExit(
+                f"High-resolution generation failed with HTTP {exc.code}. Generation has been stopped intentionally. "
+                "Do not silently downgrade to the default model. Ask the human whether to retry high-resolution generation "
+                f"or explicitly allow fallback. Response body: {body}"
             ) from exc
         raise SystemExit(f"Request failed with HTTP {exc.code}: {body}") from exc
     except urllib.error.URLError as exc:
+        if is_explicit_highres_request(args):
+            raise SystemExit(
+                f"High-resolution generation failed due to a network or upstream error: {exc.reason}. "
+                "Generation has been stopped intentionally. Do not silently downgrade to the default model. "
+                "Ask the human whether to retry or explicitly allow fallback."
+            ) from exc
         raise SystemExit(f"Request failed: {exc.reason}") from exc
 
 

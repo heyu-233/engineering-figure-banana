@@ -148,6 +148,12 @@ NANOBANANA_ALLOW_THIRD_PARTY=1
 
 The API key file should contain only your current valid key on one line.
 
+High-resolution policy:
+
+- If you explicitly ask for `pro-2k`, 2K, high-resolution, or final-export quality, the generator must use the configured high-resolution path
+- If that high-resolution path fails, the workflow should stop and ask for human confirmation before any fallback is attempted
+- It must not silently downgrade to a cheaper or lower-tier model, because that can waste tokens and produce the wrong output tier
+
 ## Provider Compatibility
 
 This skill is designed to be compatible with different provider setups.
@@ -276,6 +282,14 @@ When adding screenshots, prefer:
 - Set `NANOBANANA_ALLOW_THIRD_PARTY=1` in `nanobanana.env`
 - Or pass `--allow-third-party` for that command
 - Only do this when you trust the relay you are using
+
+### High-resolution request failed
+
+- If you asked for `pro-2k`, 2K, or final-export quality, the scripts now stop intentionally when that path fails
+- They do not silently fall back to the default model
+- Common causes are missing `NANOBANANA_HIGHRES_MODEL`, provider-side rate limiting, or temporary upstream/network errors
+- Decide explicitly whether to retry the high-resolution request or allow fallback for that specific run
+- If you do want fallback, pass an explicit `--model` override or temporarily change your env after making that decision consciously
 
 ### Chinese text is too dense or blurry
 

@@ -8,9 +8,9 @@ These showcase examples are intentionally placed near the top so visitors can ju
 
 | Example | Description |
 | --- | --- |
-| ![Federated open-vocabulary driving figure](docs/examples/federated-open-vocab-driving-2k-1.png) | High-density autonomous-driving architecture figure redrawn from a complex reference using the high-resolution path |
-| ![Cooperative object tracking figure](docs/examples/cooperative-object-tracking-2k-1.png) | Clean multi-module cooperative perception and tracking overview redrawn from a paper-style reference |
-| ![Multi-agent safety overview figure](docs/examples/multi-agent-safety-overview-2k-1.png) | Detailed survey-style LLM agent safety overview redrawn from a complex reference with many subpanels |
+| ![Federated open-vocabulary driving figure](docs/examples/federated-open-vocab-driving-2k-1.png) | High-density autonomous-driving overview redesigned from a reference-inspired concept using the high-resolution path |
+| ![Cooperative object tracking figure](docs/examples/cooperative-object-tracking-2k-1.png) | Modern cooperative perception and tracking pipeline with a newly organized layout |
+| ![Multi-agent safety overview figure](docs/examples/multi-agent-safety-overview-2k-1.png) | Taxonomy-style multi-agent safety overview restructured into a new hierarchy for showcase use |
 | ![Linux kernel system diagram](docs/examples/linux-kernel-system-1.jpg) | Existing engineering showcase example for a dense systems overview |
 
 See `docs/examples/README.md` for the source prompt files and example notes.

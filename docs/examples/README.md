@@ -5,19 +5,20 @@ This folder contains repository-safe public examples that show the visual direct
 ## Included Examples
 
 - `linux-kernel-system-1.jpg` - detailed English architecture figure example
-- `federated-open-vocab-driving-2k-1.png` - dense autonomous-driving figure redrawn from a complex paper-style reference with the high-resolution path
-- `cooperative-object-tracking-2k-1.png` - cooperative perception and tracking architecture redrawn from a structured reference figure
-- `multi-agent-safety-overview-2k-1.png` - survey-style LLM agent safety overview redrawn from a dense reference figure
+- `federated-open-vocab-driving-2k-1.png` - dense autonomous-driving overview redesigned with a new multi-city collaboration layout
+- `cooperative-object-tracking-2k-1.png` - cooperative perception and tracking pipeline reorganized into a new modern flow
+- `multi-agent-safety-overview-2k-1.png` - taxonomy-style LLM agent safety overview with a newly designed hierarchy
 
 ## Source Files
 
 - `linux-kernel-system-diagram-prompt.txt` - original prompt for the Linux kernel example
-- `federated-open-vocab-driving-prompt.txt` - prompt used together with the attached driving reference image
-- `cooperative-object-tracking-prompt.txt` - prompt used together with the attached tracking reference image
-- `multi-agent-safety-overview-prompt.txt` - prompt used together with the attached multi-agent safety reference image
+- `federated-open-vocab-driving-prompt.txt` - prompt for a reference-inspired but newly arranged autonomous-driving overview
+- `cooperative-object-tracking-prompt.txt` - prompt for a reference-inspired cooperative perception and tracking redesign
+- `multi-agent-safety-overview-prompt.txt` - prompt for a reference-inspired multi-agent safety taxonomy overview
 
 Notes:
 
 - the three new `*-2k-1.png` examples were produced through the high-resolution model path
 - they are intended to look substantially closer to modern paper figures than the older lightweight placeholder examples
+- they are not meant to copy the original reference layouts; they use the references only for visual ambition, complexity, and domain style
 - the previous lightweight showcase files were removed because they were not good enough for public presentation

@@ -1,12 +1,27 @@
-Redraw the attached reference as a highly detailed survey-style overview figure for LLM agent and multi-agent system safety. Preserve the dense survey-figure feel, but make it cleaner, more coherent, and more polished for public project showcase use.
+Create a brand-new publication-quality taxonomy overview figure for LLM agent and multi-agent system safety. Use the richness, complexity, and survey-paper polish of dense overview figures, but do not mimic the original left-middle-right plus lower-panels layout.
 
-Requirements:
-- white background and publication-style organization
-- preserve the broad composition: evaluation and user input on the left, central agent and multi-agent architecture block, safety or defense related panels on the right, and dense lower panels for tool attacks, memory attacks, defenses, and multi-agent attacks/defenses
-- keep the figure complex and information-rich, similar to the reference, not simplified into a toy diagram
-- keep rounded containers, soft academic colors, and many labeled submodules
-- emphasize readability, alignment, and consistent icon sizing
-- use soft blue, pale yellow, light pink, light green, and neutral gray, similar to the reference style
-- ensure the title and section headers are sharp and visually balanced
-- suitable for repository showcase and paper-style visual quality
-- produce a redrawn, cleaner, more professional survey figure inspired by the reference
+Required topic groups to preserve:
+- planning
+- memory
+- tool
+- environment
+- attack
+- defense
+- agent or multi-agent architecture context
+
+Layout instructions:
+- do NOT preserve the old survey composition with the same left column, central block, right column, and lower attack panels in nearly identical positions
+- instead, redesign the figure hierarchy from scratch
+- suggested composition: central architecture core, surrounding taxonomy bands or grouped regions for attack surfaces and defense layers, and clearly separated environment / interaction / capability blocks
+- the layout should feel like a newly designed taxonomy map, with stronger hierarchy and better balance than the reference
+- keep many labeled submodules and rich structure, but reorganize the regions to avoid visual copying
+
+Visual style:
+- white background
+- detailed but clean survey-style figure
+- soft blue, pale yellow, light pink, light green, and neutral gray
+- rounded containers, dashed group boundaries where useful, crisp headings, clear icon usage
+- high legibility and strong README showcase quality
+- vector-like, academic, information-rich
+
+The final image should look like an original multi-agent safety taxonomy overview inspired by the sophistication of the reference, not a redrawn duplicate.

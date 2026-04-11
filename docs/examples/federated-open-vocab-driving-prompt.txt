@@ -1,13 +1,27 @@
-Redraw the attached reference as a polished, publication-quality engineering figure for a computer vision and autonomous driving paper. Keep the same overall information density and multi-panel structure, but make the final figure cleaner, sharper, more consistent, and more visually balanced.
+Create a brand-new publication-quality system figure for multi-city collaborative open-vocabulary scene understanding in autonomous driving. Use the visual complexity, academic polish, and information density of strong CVPR-style overview figures, but do not copy the layout of any existing reference figure.
 
-Requirements:
-- white background, journal-style layout, crisp readable labels
-- preserve the high-level structure: multiple city clients on the left, shared prototype or prompt modules in the center and upper middle, cross-modal prototype bank on the right, and unseen-city inference block at the lower right
-- preserve the idea of front cameras, sparse LiDAR, local prototype memory, adapter blocks, global aggregation, prototype bank, prompt decomposition, and final open-vocabulary scene understanding
-- keep the figure dense and detailed, comparable to a top-tier CVPR or ICCV paper figure
-- use soft academic colors similar to the reference: light peach, light blue, pale green, neutral gray
-- arrows and block boundaries must be clean and publication-ready
-- make text highly legible and consistent; do not produce blurry small labels
-- do not add decorative art effects; keep it vector-like and technical
-- square composition, suitable for README showcase
-- output should look like a refined redrawn version inspired by the reference, not a low-detail cartoon
+Required concepts to preserve:
+- multiple city clients
+- a central server or global aggregation hub
+- a global prototype bank
+- prompt decomposition or attribute-aware prompt encoding
+- unseen-city inference
+- multimodal inputs such as front cameras and sparse LiDAR
+- local adaptation blocks, prototype memory, and open-vocabulary outputs
+
+Layout instructions:
+- do NOT arrange the figure as a simple vertical list of City Client #1 / #2 / #N with nearly identical repeated blocks
+- instead, build a new composition with a clear top-level hierarchy
+- suggested composition: left side for distributed city clients, center for global collaboration and prototype bank, upper-right for prompt decomposition and shared semantic priors, lower-right for unseen-city inference and final scene understanding
+- make the module layout asymmetric but balanced, with stronger visual flow than the reference
+- use clean publication-style arrows, rounded containers, neat group boundaries, and consistent typography
+
+Visual style:
+- white background
+- high information density
+- soft academic palette: peach, pale blue, pale green, light gray
+- crisp readable labels and vector-like engineering appearance
+- no photorealism, no decorative art, no blurry micro-text
+- strong README showcase quality
+
+The final image must feel like a new original engineering overview inspired by the complexity of top-tier autonomous-driving paper figures, not a redraw of one existing figure.

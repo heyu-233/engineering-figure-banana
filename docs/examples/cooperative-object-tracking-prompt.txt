@@ -1,13 +1,26 @@
-Redraw the attached reference as a publication-quality multi-module architecture figure for cooperative object detection and tracking. Keep the same four-part structure and technical seriousness, but improve clarity, typography, alignment, and visual polish.
+Create a brand-new publication-quality cooperative perception and tracking pipeline figure. Use the visual cleanliness and information density of strong autonomous-driving paper figures, but do not reuse the old four-box repeated layout from the reference.
 
-Requirements:
-- white background and clean academic layout
-- preserve the four major regions: detection and tracking feature fusion, cooperative object tracking, cooperative object detection feature extraction, and object tracking trajectory feature extraction
-- keep the idea of transformer fusion, intermediate feature sharing, pointpillar backbone, Kalman filter, Hungarian algorithm, trajectory management, and spatial temporal pyramidal network
-- use dashed rounded group boundaries similar to the reference
-- use low-saturation light yellow panels, pale purple outlines, and soft peach highlights like a polished journal figure
-- maintain medium-to-high information density rather than simplifying too aggressively
-- all labels should be sharp and readable
-- arrows must be straight, consistent, and easy to follow
-- square figure, README showcase quality
-- the final result should look like a high-end redrawn engineering diagram based on the reference
+Required technical concepts:
+- feature extraction
+- feature fusion
+- object association
+- trajectory prediction or trajectory update
+- cooperative perception inputs from multiple agents or vehicles
+- temporal modeling for tracking
+
+Layout instructions:
+- do NOT keep the old composition of four large boxes arranged almost identically
+- instead, build a more modern pipeline layout with clearer directional flow
+- suggested structure: lower-left or left for cooperative sensing and feature extraction, center for multi-agent fusion and shared representation, upper-right for association and motion reasoning, lower-right for trajectory refinement and update
+- use grouped regions and flow arrows, but vary the panel shapes and spatial hierarchy so the composition feels newly designed
+- make the diagram feel more contemporary and deliberate than the reference
+
+Visual style:
+- white background
+- publication-style engineering diagram
+- low-saturation yellow panels, pale purple outlines, soft peach highlights, light blue feature maps
+- readable labels, clean arrows, consistent spacing
+- medium-to-high detail level
+- suitable as a polished showcase example for a public repository
+
+The final output should be an original cooperative perception + tracking overview with the same technical seriousness as the reference, but clearly a newly organized figure rather than a layout copy.

@@ -9,6 +9,16 @@ description: Use when the user needs computer science, electronics, algorithms, 
 
 This skill adapts the Nano Banana or Gemini image workflow to computer science, electronics, algorithms, and engineering-paper figures.
 
+## Boundary / Handoff
+
+Use this skill for the figure-production layer after the figure goal is already reasonably clear.
+
+- Good fit: turn a figure brief into a conceptual diagram, engineering schematic, workflow figure, or exact publication plot.
+- Good fit: choose between `image` mode and `plot` mode, build prompts, render plots, and apply figure-language, layout, color, and export constraints.
+- Not the main tool for: deciding from scratch what claim the paper should visualize, auditing whether a figure really supports the argument, or writing a full reviewer-style figure critique.
+- If the user is still asking what figure they should make, what panels should exist, what claim each panel supports, or how the figure should be explained in the paper, hand off upstream to `ai-research-writing-guide` first.
+- Recommended input from that upstream handoff: `figure goal`, `figure type`, `panel plan or module list`, `must-keep terms`, `caption or message`, `paper language`, and `visual style constraints`.
+
 It should be treated as a provider-neutral workflow for Gemini-compatible image endpoints:
 
 - prefer the official Google Gemini endpoint as the reference setup

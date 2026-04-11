@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#54789b" />
+    </marker>
+    <style>
+      .title { font: 700 34px 'Microsoft YaHei', Arial, sans-serif; fill: #243241; }
+      .subtitle { font: 400 18px 'Microsoft YaHei', Arial, sans-serif; fill: #5f6c7d; }
+      .box { fill: #eef4fa; stroke: #92b1d9; stroke-width: 2; rx: 18; }
+      .box2 { fill: #f9fbfd; stroke: #c1d8e9; stroke-width: 2; rx: 18; }
+      .accent { fill: #f6c8b6; stroke: #d09a86; stroke-width: 2; rx: 18; }
+      .text { font: 600 24px 'Microsoft YaHei', Arial, sans-serif; fill: #2a394b; }
+      .small { font: 500 17px 'Microsoft YaHei', Arial, sans-serif; fill: #526173; }
+      .line { stroke: #54789b; stroke-width: 4; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #8fa4bb; stroke-width: 3; fill: none; stroke-dasharray: 10 8; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect width="1400" height="760" fill="#ffffff"/>
+  <text x="70" y="70" class="title">工业监测与预警流程图</text>
+  <text x="70" y="104" class="subtitle">中文工程论文示例：保留 FFT、IoU、API、CPU 等标准英文技术词</text>
+  <rect x="70" y="180" width="200" height="92" class="box"/>
+  <text x="170" y="230" text-anchor="middle" class="text">数据采集</text>
+  <text x="170" y="258" text-anchor="middle" class="small">摄像头 / 传感器 / API</text>
+  <rect x="320" y="180" width="210" height="92" class="box"/>
+  <text x="425" y="230" text-anchor="middle" class="text">边缘预处理</text>
+  <text x="425" y="258" text-anchor="middle" class="small">滤波、FFT、特征整理</text>
+  <rect x="580" y="180" width="220" height="92" class="box"/>
+  <text x="690" y="230" text-anchor="middle" class="text">异常检测</text>
+  <text x="690" y="258" text-anchor="middle" class="small">轻量模型 + IoU 规则</text>
+  <rect x="850" y="160" width="260" height="132" class="box2"/>
+  <text x="980" y="220" text-anchor="middle" class="text">云端分析与知识库</text>
+  <text x="980" y="248" text-anchor="middle" class="small">历史事件、专家规则、长周期分析</text>
+  <rect x="1160" y="180" width="170" height="92" class="accent"/>
+  <text x="1245" y="230" text-anchor="middle" class="text">风险评估</text>
+  <text x="1245" y="258" text-anchor="middle" class="small">等级输出</text>
+  <rect x="210" y="460" width="210" height="92" class="box"/>
+  <text x="315" y="510" text-anchor="middle" class="text">告警判定</text>
+  <text x="315" y="538" text-anchor="middle" class="small">阈值、趋势、规则融合</text>
+  <rect x="490" y="460" width="210" height="92" class="accent"/>
+  <text x="595" y="510" text-anchor="middle" class="text">现场处置</text>
+  <text x="595" y="538" text-anchor="middle" class="small">提示、停机、复核</text>
+  <rect x="770" y="460" width="230" height="92" class="box2"/>
+  <text x="885" y="510" text-anchor="middle" class="text">反馈闭环</text>
+  <text x="885" y="538" text-anchor="middle" class="small">人工确认、标签回写、模型更新</text>
+  <path d="M270 226 H320" class="line"/>
+  <path d="M530 226 H580" class="line"/>
+  <path d="M800 226 H850" class="line"/>
+  <path d="M1110 226 H1160" class="line"/>
+  <path d="M1245 272 V340 H315 V460" class="dash"/>
+  <path d="M315 552 H490" class="line"/>
+  <path d="M700 506 H770" class="line"/>
+  <path d="M885 460 V370 H690 V272" class="dash"/>
+  <text x="1040" y="610" class="small">主路径：采集 → 边缘预处理 → 异常检测 → 云端分析 → 风险评估 → 告警与处置 → 反馈闭环</text>
+</svg>

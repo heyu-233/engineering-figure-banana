@@ -5,7 +5,7 @@ param(
 
 $ErrorActionPreference = "Continue"
 
-function Write-Check($status, $message) {
+function Write-Status($status, $message) {
     switch ($status) {
         "PASS" { Write-Host "[PASS] $message" -ForegroundColor Green }
         "WARN" { Write-Host "[WARN] $message" -ForegroundColor Yellow }
@@ -14,7 +14,22 @@ function Write-Check($status, $message) {
     }
 }
 
+function Write-NextStep($message) {
+    Write-Host "       Next: $message" -ForegroundColor Cyan
+}
+
+function Add-Result($status, $message, $nextStep) {
+    $script:results += [pscustomobject]@{ Status = $status; Message = $message; NextStep = $nextStep }
+    Write-Status $status $message
+    if ($nextStep) {
+        Write-NextStep $nextStep
+    }
+}
+
+$results = @()
 $failed = $false
+$warned = $false
+$readyForPromptOnly = $false
 
 Write-Host "Engineering Figure Banana setup check"
 Write-Host "SkillDir   : $SkillDir"
@@ -23,16 +38,16 @@ Write-Host ""
 
 if (Get-Command python -ErrorAction SilentlyContinue) {
     $pythonVersion = python --version 2>&1
-    Write-Check "PASS" "Python detected: $pythonVersion"
+    Add-Result "PASS" "Python detected: $pythonVersion" $null
 } else {
-    Write-Check "FAIL" "Python not found in PATH"
+    Add-Result "FAIL" "Python not found in PATH" "Install Python 3.10+ and reopen PowerShell so the `python` command is available."
     $failed = $true
 }
 
 if (Test-Path $SkillDir) {
-    Write-Check "PASS" "Skill directory exists"
+    Add-Result "PASS" "Skill directory exists" $null
 } else {
-    Write-Check "FAIL" "Skill directory missing: $SkillDir"
+    Add-Result "FAIL" "Skill directory missing: $SkillDir" "Run `& `"$HOME/.codex/skills/engineering-figure-banana/scripts/install_and_test.ps1`"` from the repo root or copy this skill into `$HOME/.codex/skills/engineering-figure-banana`."
     $failed = $true
 }
 
@@ -47,19 +62,19 @@ $requiredFiles = @(
 foreach ($rel in $requiredFiles) {
     $path = Join-Path $SkillDir $rel
     if (Test-Path $path) {
-        Write-Check "PASS" "Found $rel"
+        Add-Result "PASS" "Found $rel" $null
     } else {
-        Write-Check "FAIL" "Missing $rel"
+        Add-Result "FAIL" "Missing $rel" "Reinstall or re-copy the skill so all required files exist under `$HOME/.codex/skills/engineering-figure-banana`."
         $failed = $true
     }
 }
 
 $envFile = Join-Path $SecretsDir "nanobanana.env"
 $keyFile = Join-Path $SecretsDir "nanobanana_api_key.txt"
+$envMap = @{}
 
 if (Test-Path $envFile) {
-    Write-Check "PASS" "Found nanobanana.env"
-    $envMap = @{}
+    Add-Result "PASS" "Found nanobanana.env" $null
     Get-Content -Path $envFile | ForEach-Object {
         $line = $_.Trim()
         if (-not $line -or $line.StartsWith("#")) { return }
@@ -71,49 +86,89 @@ if (Test-Path $envFile) {
 
     foreach ($name in @("NANOBANANA_BASE_URL", "NANOBANANA_DEFAULT_MODEL", "NANOBANANA_AUTH_MODE")) {
         if ($envMap.ContainsKey($name) -and $envMap[$name]) {
-            Write-Check "PASS" "$name is set"
+            Add-Result "PASS" "$name is set" $null
         } else {
-            Write-Check "WARN" "$name is not set in nanobanana.env"
+            Add-Result "WARN" "$name is not set in nanobanana.env" "Edit $envFile and add `$name=...`, then rerun this setup check."
+            $warned = $true
         }
     }
 
-    if ($envMap.ContainsKey("NANOBANANA_BASE_URL")) {
+    if ($envMap.ContainsKey("NANOBANANA_BASE_URL") -and $envMap["NANOBANANA_BASE_URL"]) {
         $baseUrl = $envMap["NANOBANANA_BASE_URL"]
         if ($baseUrl -eq "https://generativelanguage.googleapis.com") {
-            Write-Check "PASS" "Official Google endpoint configured"
+            Add-Result "PASS" "Official Google endpoint configured" $null
         } else {
-            Write-Check "WARN" "Third-party or custom endpoint configured: $baseUrl"
+            Add-Result "WARN" "Third-party or custom endpoint configured: $baseUrl" "Keep using this only if you trust the provider and make sure the provider's model names and auth mode are correct."
+            $warned = $true
             if (($envMap["NANOBANANA_ALLOW_THIRD_PARTY"] -ne "1")) {
-                Write-Check "WARN" "NANOBANANA_ALLOW_THIRD_PARTY is not set to 1"
+                Add-Result "WARN" "NANOBANANA_ALLOW_THIRD_PARTY is not set to 1" "If you intentionally use a relay, add `NANOBANANA_ALLOW_THIRD_PARTY=1` to $envFile or pass `--allow-third-party` when generating."
+                $warned = $true
             }
         }
     }
-} else {
-    Write-Check "FAIL" "Missing nanobanana.env: $envFile"
+
+    if (-not ($envMap.ContainsKey("NANOBANANA_HIGHRES_MODEL") -and $envMap["NANOBANANA_HIGHRES_MODEL"])) {
+        Add-Result "WARN" "NANOBANANA_HIGHRES_MODEL is not configured" "Routine generation can still work, but `pro-2k` or final-export requests will stop instead of silently downgrading. Add the provider's high-res model name if you want that path available."
+        $warned = $true
+    } else {
+        Add-Result "PASS" "NANOBANANA_HIGHRES_MODEL is set" $null
+    }
+}
+else {
+    Add-Result "FAIL" "Missing nanobanana.env: $envFile" "Copy `secrets/nanobanana.env.example` to $envFile, fill in your provider values, then rerun this setup check."
     $failed = $true
 }
 
 if (Test-Path $keyFile) {
     $key = (Get-Content -Raw -Path $keyFile).Trim()
     if (-not $key) {
-        Write-Check "FAIL" "nanobanana_api_key.txt is empty"
+        Add-Result "FAIL" "nanobanana_api_key.txt is empty" "Paste your real API key into $keyFile. Do not keep it blank."
         $failed = $true
     } elseif ($key -eq "REPLACE_WITH_YOUR_CURRENT_VALID_NANOBANANA_API_KEY") {
-        Write-Check "FAIL" "nanobanana_api_key.txt still contains the placeholder value"
+        Add-Result "FAIL" "nanobanana_api_key.txt still contains the placeholder value" "Replace the placeholder in $keyFile with your current valid API key."
         $failed = $true
     } else {
-        Write-Check "PASS" "Found non-placeholder API key file"
+        Add-Result "PASS" "Found non-placeholder API key file" $null
     }
 } else {
-    Write-Check "FAIL" "Missing nanobanana_api_key.txt: $keyFile"
+    Add-Result "FAIL" "Missing nanobanana_api_key.txt: $keyFile" "Copy `secrets/nanobanana_api_key.txt.example` to $keyFile and paste your real API key into it."
     $failed = $true
 }
 
+if ($env:NANOBANANA_BASE_URL) {
+    Add-Result "PASS" "Current shell already has NANOBANANA_* values loaded" $null
+} else {
+    Add-Result "WARN" "Current shell does not appear to have NANOBANANA_* values loaded yet" "Run `. `"$HOME/.codex/skills/engineering-figure-banana/scripts/load_nanobanana_env.ps1`"` in this PowerShell session before generating."
+    $warned = $true
+    $readyForPromptOnly = $true
+}
+
 Write-Host ""
+Write-Host "Readiness summary" -ForegroundColor Cyan
 if ($failed) {
-    Write-Host "Setup check finished with errors." -ForegroundColor Red
+    Write-Host "Blocked until fixed" -ForegroundColor Red
+    Write-Host "Fix the FAIL items above first, then rerun:`n  & `"$HOME/.codex/skills/engineering-figure-banana/scripts/check_setup.ps1`"" -ForegroundColor Cyan
     exit 1
 }
 
-Write-Host "Setup check finished successfully." -ForegroundColor Green
+if ($warned -and $readyForPromptOnly) {
+    Write-Host "Ready for prompt-only testing" -ForegroundColor Yellow
+    Write-Host "Next recommended commands:" -ForegroundColor Cyan
+    Write-Host "  . `"$HOME/.codex/skills/engineering-figure-banana/scripts/load_nanobanana_env.ps1`""
+    Write-Host "  & `"$HOME/.codex/skills/engineering-figure-banana/scripts/wizard.ps1`""
+    exit 0
+}
+
+if ($warned) {
+    Write-Host "Ready for minimal generation, but review the WARN items above" -ForegroundColor Yellow
+    Write-Host "Next recommended commands:" -ForegroundColor Cyan
+    Write-Host "  & `"$HOME/.codex/skills/engineering-figure-banana/scripts/wizard.ps1`""
+    Write-Host "  or run the minimal command from README.md"
+    exit 0
+}
+
+Write-Host "Ready for minimal generation" -ForegroundColor Green
+Write-Host "Next recommended commands:" -ForegroundColor Cyan
+Write-Host "  & `"$HOME/.codex/skills/engineering-figure-banana/scripts/wizard.ps1`""
+Write-Host "  or run the minimal command from README.md"
 exit 0

@@ -1,12 +1,20 @@
 # Provider Compatibility
 
-This skill is designed to be provider-neutral and compatible with multiple Gemini-style image backends.
+This project is intentionally provider-neutral, but it is not provider-agnostic in the sense of hiding all differences. Users still need to set the correct endpoint, auth mode, and model names for their own backend.
 
-## Supported Provider Patterns
+## Recommended Public Stance
 
-- Official Google Gemini API
-- Third-party Gemini-compatible relays
-- Custom internal or hosted providers that expose a Gemini-like image endpoint
+- treat the official Google Gemini endpoint as the reference setup in public docs
+- treat relays and custom providers as optional compatibility paths
+- never hardcode a personal relay endpoint or private billing setup into shared instructions
+
+## Quick Compatibility Table
+
+| Provider type | Typical base URL | Typical auth mode | Third-party flag | High-res model handling |
+| --- | --- | --- | --- | --- |
+| Official Google Gemini | `https://generativelanguage.googleapis.com` | `google` | not needed | optional `NANOBANANA_HIGHRES_MODEL` |
+| Gemini-compatible relay | provider-specific | usually `bearer` | usually required | provider-specific model name |
+| Custom internal endpoint | internal endpoint | provider-specific | usually required | provider-specific model name |
 
 ## What Usually Changes Between Providers
 
@@ -19,8 +27,6 @@ This skill is designed to be provider-neutral and compatible with multiple Gemin
 
 ## Official Google Reference Pattern
 
-Typical configuration:
-
 ```env
 NANOBANANA_BASE_URL=https://generativelanguage.googleapis.com
 NANOBANANA_DEFAULT_MODEL=gemini-3.1-flash-image-preview
@@ -28,11 +34,7 @@ NANOBANANA_HIGHRES_MODEL=gemini-3.1-flash-image-preview
 NANOBANANA_AUTH_MODE=google
 ```
 
-Use this as the reference configuration in public docs unless there is a strong reason not to.
-
 ## Third-Party Relay Pattern
-
-Typical configuration:
 
 ```env
 NANOBANANA_BASE_URL=https://your-relay.example.com
@@ -42,27 +44,8 @@ NANOBANANA_AUTH_MODE=bearer
 NANOBANANA_ALLOW_THIRD_PARTY=1
 ```
 
-Notes:
+## Safety Notes
 
-- Keep relay examples generic in public repositories
-- Do not present a personal or private relay as the canonical default
-- Users must replace the endpoint and model names with values from their own provider
-
-## Publishing Recommendation
-
-For a public repository:
-
-- treat official Google as the reference setup
-- treat third-party relays as optional compatibility paths
-- keep secrets and private endpoints out of version control
-- explain that provider-specific model names may differ
-
-## Safety Recommendation
-
-This skill intentionally requires explicit opt-in for non-official endpoints when user files or keys are involved.
-
-If you use a relay:
-
-- make sure you trust the provider
-- set `NANOBANANA_ALLOW_THIRD_PARTY=1` only when intended
-- review provider data handling before sending sensitive inputs
+- only enable `NANOBANANA_ALLOW_THIRD_PARTY=1` when you intentionally trust the relay
+- verify how the provider handles uploaded files, prompts, and API keys before sending sensitive material
+- if high-resolution output matters, confirm the provider really exposes a distinct high-res model instead of assuming the default model is enough

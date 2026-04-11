@@ -8,6 +8,7 @@ import base64
 import json
 import mimetypes
 import os
+import re
 import sys
 import urllib.parse
 import urllib.error
@@ -26,6 +27,16 @@ HIGHRES_HINTS = ("2k", "highres", "high-res", "high resolution", "final export",
 def load_figure_templates() -> dict:
     template_path = Path(__file__).resolve().parent.parent / "references" / "engineering-figure-templates.json"
     return json.loads(template_path.read_text(encoding="utf-8"))
+
+
+def contains_chinese(text: str) -> bool:
+    return bool(re.search(r"[\u3400-\u4dbf\u4e00-\u9fff]", text))
+
+
+def resolve_lang(raw_prompt: str, requested_lang: str | None) -> str:
+    if requested_lang:
+        return requested_lang
+    return "zh" if contains_chinese(raw_prompt) else "en"
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -48,8 +59,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--lang",
         choices=("en", "zh"),
-        default="en",
-        help="Template output language for shortcut modes.",
+        default=None,
+        help="Template output language for shortcut modes. If omitted, Chinese prompts default to zh and others default to en.",
     )
     parser.add_argument(
         "--style-note",
@@ -187,7 +198,8 @@ def resolve_prompt(args: argparse.Namespace) -> str:
     if figure_template:
         if not raw_prompt:
             raise SystemExit("Provide technical background as the positional prompt when using --figure-template.")
-        template = load_figure_templates()[figure_template][args.lang]
+        template_lang = resolve_lang(raw_prompt, args.lang)
+        template = load_figure_templates()[figure_template][template_lang]
         prompt = template.format(background=raw_prompt.strip())
         if args.style_note:
             prompt = f"{prompt}\n\nAdditional Style Requirement:\n{args.style_note}"

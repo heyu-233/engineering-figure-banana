@@ -9,6 +9,15 @@ const OFFICIAL_HOSTNAME = "generativelanguage.googleapis.com";
 const DEFAULT_MODEL = process.env.NANOBANANA_MODEL || "gemini-3.1-flash-image-preview";
 const DEFAULT_TIMEOUT = Number(process.env.NANOBANANA_TIMEOUT || "120");
 
+function containsChinese(text) {
+  return /[\u3400-\u4dbf\u4e00-\u9fff]/.test(text);
+}
+
+function resolveLang(rawPrompt, requestedLang) {
+  if (requestedLang) return requestedLang;
+  return containsChinese(rawPrompt) ? "zh" : "en";
+}
+
 function loadMaterialsFigureTemplates() {
   const templatePath = path.join(__dirname, "..", "references", "materials-science-figure-templates.json");
   return JSON.parse(fs.readFileSync(templatePath, "utf8"));
@@ -19,7 +28,7 @@ function parseArgs(argv) {
     prompt: "",
     promptFile: "",
     materialsFigure: "",
-    lang: "en",
+    lang: "",
     styleNote: "",
     inputImages: [],
     outDir: "./output/nanobanana",
@@ -197,7 +206,8 @@ function resolvePrompt(args) {
     if (!rawPrompt) {
       throw new Error("Provide scientific background as the positional prompt when using --materials-figure.");
     }
-    let prompt = subtype[args.lang].replace("{background}", rawPrompt.trim());
+    const lang = resolveLang(rawPrompt, args.lang);
+    let prompt = subtype[lang].replace("{background}", rawPrompt.trim());
     if (args.styleNote) {
       prompt += `\n\nAdditional Style Requirement:\n${args.styleNote}`;
     }

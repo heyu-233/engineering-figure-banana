@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -20,6 +21,16 @@ TEMPLATE_CHOICES = (
 def load_templates() -> dict:
     template_path = Path(__file__).resolve().parent.parent / "references" / "engineering-figure-templates.json"
     return json.loads(template_path.read_text(encoding="utf-8"))
+
+
+def contains_chinese(text: str) -> bool:
+    return bool(re.search(r"[\u3400-\u4dbf\u4e00-\u9fff]", text))
+
+
+def resolve_lang(background: str, requested_lang: str | None) -> str:
+    if requested_lang:
+        return requested_lang
+    return "zh" if contains_chinese(background) else "en"
 
 
 def build_prompt(background: str, figure_type: str, lang: str, style_note: str | None) -> str:
@@ -44,7 +55,12 @@ def parse_args() -> argparse.Namespace:
         choices=TEMPLATE_CHOICES,
         help="Built-in engineering figure subtype.",
     )
-    parser.add_argument("--lang", choices=("en", "zh"), default="en", help="Template output language.")
+    parser.add_argument(
+        "--lang",
+        choices=("en", "zh"),
+        default=None,
+        help="Template output language. If omitted, Chinese backgrounds default to zh and others default to en.",
+    )
     parser.add_argument("--style-note", help="Optional extra style requirement appended after the template.")
     return parser.parse_args()
 
@@ -62,7 +78,8 @@ def resolve_background(args: argparse.Namespace) -> str:
 
 def main() -> int:
     args = parse_args()
-    sys.stdout.write(build_prompt(resolve_background(args), args.figure_template, args.lang, args.style_note))
+    background = resolve_background(args)
+    sys.stdout.write(build_prompt(background, args.figure_template, resolve_lang(background, args.lang), args.style_note))
     sys.stdout.write("\n")
     return 0
 

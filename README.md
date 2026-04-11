@@ -84,6 +84,12 @@ Rule of thumb:
 - If the figure is conceptual or schematic, use `image mode`
 - If a figure mixes both, generate the conceptual structure with `image mode` and keep the quantitative panels in `plot mode`
 
+Language behavior:
+
+- If you do not pass `--lang`, Chinese technical background now defaults to Chinese figure labels (`zh`)
+- English technical background defaults to English labels (`en`)
+- Even in Chinese figures, standard English symbols, abbreviations, and formula variables should still be preserved where technically appropriate
+
 ## Install
 
 Copy this directory into your local Codex user skills directory:
@@ -203,6 +209,7 @@ python "$HOME/.codex/skills/engineering-figure-banana/scripts/build_engineering_
 - For dense academic figures, prefer fewer but clearer labels rather than paragraph-like text blocks
 - Preserve standard English symbols, abbreviations, and formula variables where they improve technical clarity
 - Do not force awkward full-Chinese replacements for notation such as `FFT`, `CNN`, `pH`, `IoU`, `loss`, or variables like `x`, `y`, `t`, and `sigma`
+- When the prompt/background is mainly Chinese and `--lang` is not specified, the skill now defaults to Chinese labels automatically
 
 ## AutoFigure-Edit Handoff
 

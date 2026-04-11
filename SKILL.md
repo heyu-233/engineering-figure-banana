@@ -159,7 +159,7 @@ Prompt-building workflow:
 
 1. Read `references/engineering-figure-templates.md`.
 2. Select the closest template.
-3. Choose `en` or `zh`.
+3. Choose `en` or `zh`. If the user does not specify a language and the technical background is mainly Chinese, default to `zh`; otherwise default to `en`.
 4. Insert the user's technical background as-is.
 5. Append journal or venue styling only after the base template.
 
@@ -269,6 +269,7 @@ Use these rules:
 - For exact charts, prefer local plotting for accurate geometry; Chinese labels can be rendered directly when they remain readable at the intended export size.
 - If the user explicitly wants Chinese directly inside the image, prioritize that requirement and optimize layout, font size, spacing, and label placement for readability.
 - When the figure language is Chinese, preserve standard English symbols, formula variables, axis symbols, model names, protocol names, and established abbreviations where they improve technical clarity. Do not force awkward full-Chinese replacements for notation such as FFT, CNN, pH, loss, IoU, or variables like x, y, t, and sigma.
+- If the user writes the figure request and paper context mainly in Chinese and does not explicitly force `en`, prefer Chinese labels by default.
 
 When writing prompts for figures with Chinese, include prompt phrases like:
 

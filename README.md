@@ -2,6 +2,21 @@
 
 A Codex skill for generating publication-style engineering figures with Gemini-compatible image endpoints and for rendering exact quantitative plots locally.
 
+## 5-Minute Quick Start
+
+1. Copy or clone this repository into `$HOME/.codex/skills/engineering-figure-banana`
+2. Copy the env and key templates into `$HOME/.codex/secrets/` and fill in your provider values
+3. Run:
+   - `. "$HOME/.codex/skills/engineering-figure-banana/scripts/load_nanobanana_env.ps1"`
+   - `& "$HOME/.codex/skills/engineering-figure-banana/scripts/check_setup.ps1"`
+   - then the minimal image test from this README
+
+Fastest Windows path:
+
+```powershell
+& "$HOME/.codex/skills/engineering-figure-banana/scripts/install_skill.ps1"
+```
+
 This skill is designed for:
 
 - system architecture diagrams

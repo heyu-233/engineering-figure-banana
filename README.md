@@ -82,6 +82,11 @@ Rule of thumb:
 - [providers.md](./providers.md): provider-neutral API configuration notes
 - [docs/examples/README.md](./docs/examples/README.md): showcase notes
 
+For installation-friendly details, start with:
+
+- `README.zh-CN.md` -> `Windows 最短安装路径` / `安装后如何验证 skill 已被 Codex 识别`
+- `README.en.md` -> `Shortest Windows Install Path` / `How To Verify Codex Recognizes The Skill`
+
 ## Quick Start
 
 ```powershell

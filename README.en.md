@@ -114,6 +114,40 @@ Rule of thumb:
 - if the figure is conceptual, use `image mode`
 - if a figure mixes both, render the quantitative panels locally first and keep image generation for explanatory panels
 
+## Shortest Windows Install Path
+
+If you want the shortest first-time setup path, run these PowerShell commands in order:
+
+```powershell
+git clone https://github.com/heyu-233/engineering-figure-banana $HOME/.codex/skills/engineering-figure-banana
+Copy-Item $HOME/.codex/skills/engineering-figure-banana/secrets/nanobanana.env.example $HOME/.codex/secrets/nanobanana.env
+Copy-Item $HOME/.codex/skills/engineering-figure-banana/secrets/nanobanana_api_key.txt.example $HOME/.codex/secrets/nanobanana_api_key.txt
+& "$HOME/.codex/skills/engineering-figure-banana/scripts/install_and_test.ps1" -RunSetupCheck
+& "$HOME/.codex/skills/engineering-figure-banana/scripts/check_setup.ps1"
+```
+
+Then:
+
+1. edit `nanobanana.env` and `nanobanana_api_key.txt`
+2. restart Codex
+3. start your first generation test
+
+## Restart Codex After First Install
+
+This step is worth stating explicitly.
+
+Why:
+
+- Codex should rescan the skill directory after installation
+- new local env and script changes are more reliable in a fresh session
+
+Recommended sequence:
+
+1. finish installation and secret configuration
+2. close the current Codex session
+3. reopen Codex
+4. then verify the skill is recognized
+
 ## Quick Start
 
 ### 1. Put the repo in the Codex skill directory
@@ -138,6 +172,7 @@ Templates are included here:
 
 ```powershell
 & "$HOME/.codex/skills/engineering-figure-banana/scripts/install_and_test.ps1" -RunSetupCheck
+& "$HOME/.codex/skills/engineering-figure-banana/scripts/check_setup.ps1"
 ```
 
 ### 4. Load env vars
@@ -153,6 +188,117 @@ python "$HOME/.codex/skills/engineering-figure-banana/scripts/generate_image.py"
   --figure-template system-architecture `
   --lang en `
   "A retrieval-augmented generation system with OCR, chunking, embedding, vector search, reranking, and answer synthesis."
+```
+
+## Minimal Provider Templates
+
+### Option 1: Official Gemini
+
+`$HOME/.codex/secrets/nanobanana.env`
+
+```env
+NANOBANANA_BASE_URL=https://generativelanguage.googleapis.com
+NANOBANANA_DEFAULT_MODEL=gemini-3.1-flash-image-preview
+NANOBANANA_HIGHRES_MODEL=gemini-3.1-flash-image-preview
+NANOBANANA_AUTH_MODE=google
+NANOBANANA_API_KEY_FILE=C:/Users/sly92/.codex/secrets/nanobanana_api_key.txt
+```
+
+`$HOME/.codex/secrets/nanobanana_api_key.txt`
+
+```txt
+REPLACE_WITH_YOUR_REAL_API_KEY
+```
+
+### Option 2: Gemini-compatible relay
+
+```env
+NANOBANANA_BASE_URL=https://your-relay.example.com
+NANOBANANA_DEFAULT_MODEL=<your-default-image-model>
+NANOBANANA_HIGHRES_MODEL=<your-highres-image-model>
+NANOBANANA_AUTH_MODE=bearer
+NANOBANANA_ALLOW_THIRD_PARTY=1
+NANOBANANA_API_KEY_FILE=C:/Users/sly92/.codex/secrets/nanobanana_api_key.txt
+```
+
+Advice:
+
+- only enable `NANOBANANA_ALLOW_THIRD_PARTY=1` when you intentionally trust the relay
+- for first verification, test the default path before trying high-resolution generation
+
+## How To Verify Codex Recognizes The Skill
+
+You can verify recognition in several ways:
+
+### Method 1: Explicitly name the skill in chat
+
+Examples:
+
+- `Use engineering-figure-banana to create a system architecture prompt`
+- `Use engineering-figure-banana to build a benchmark bar chart`
+
+If Codex responds using the skill workflow, recognition is working.
+
+### Method 2: Run the setup script
+
+```powershell
+& "$HOME/.codex/skills/engineering-figure-banana/scripts/check_setup.ps1"
+```
+
+This helps you confirm:
+
+- the skill path is correct
+- the secrets exist
+- required dependencies are available
+
+### Method 3: Test the minimal prompt-building path
+
+```powershell
+python "$HOME/.codex/skills/engineering-figure-banana/scripts/generate_image.py" `
+  --figure-template system-architecture `
+  --print-prompt `
+  "A retrieval system with OCR, embedding, vector search, reranking, and answer synthesis."
+```
+
+If the final prompt prints correctly, the local script chain is already working.
+
+## Common Failures And Fixes
+
+### `python` not found
+
+- make sure `python --version` works in PowerShell
+- if not, install Python and add it to PATH
+
+### API key file is still a placeholder
+
+- open `$HOME/.codex/secrets/nanobanana_api_key.txt`
+- replace the placeholder with a real key
+- keep the file to one line only
+
+### Third-party relay blocked by safety checks
+
+- if you use a relay, add:
+  - `NANOBANANA_ALLOW_THIRD_PARTY=1`
+- otherwise the generator may refuse to send requests
+
+### High-resolution request stops intentionally
+
+- check whether `NANOBANANA_HIGHRES_MODEL` is configured
+- verify that your provider actually exposes a high-resolution model
+- do not expect silent fallback when high-res fails
+
+### `load_nanobanana_env.ps1` says secrets are missing
+
+- confirm these files exist:
+  - `$HOME/.codex/secrets/nanobanana.env`
+  - `$HOME/.codex/secrets/nanobanana_api_key.txt`
+
+### Plotting scripts report missing dependencies
+
+- run:
+
+```powershell
+pip install -r "$HOME/.codex/skills/engineering-figure-banana/requirements.txt"
 ```
 
 ## Example Gallery

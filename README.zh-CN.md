@@ -184,11 +184,9 @@ python "$HOME/.codex/skills/engineering-figure-banana/scripts/generate_image.py"
 - `README.en.md`：英文完整说明
 - 后续重要文档如 `providers.md` 也可以逐步双语化
 
-## 一句话宣传文案
+## 项目简介
 
-可以直接用这句：
-
-> engineering-figure-banana 是一个面向工程与计算机论文的 agent-native figure skill：概念图走图像模型，定量图走本地精确渲染。
+`engineering-figure-banana` 是一个面向工程与计算机论文的 agent-native figure skill：概念图走图像模型，定量图走本地精确渲染。它更强调图形生产流程的可控性、学术风格约束和定量结果的准确表达，而不是把所有论文图都当作同一种通用生图任务来处理。
 
 ## 注意事项
 

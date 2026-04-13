@@ -103,11 +103,9 @@ python "$HOME/.codex/skills/engineering-figure-banana/scripts/generate_image.py"
   "A retrieval-augmented generation system with OCR, chunking, embedding, vector search, reranking, and answer synthesis."
 ```
 
-## Key Message for Promotion
+## Project Summary
 
-If you want a short public description for social posts or the repo intro:
-
-> Engineering Figure Banana is an agent-native figure workflow for engineering and CS papers. It handles conceptual diagrams and exact publication plots with separate pipelines instead of treating paper figures as a single generic image-generation task.
+Engineering Figure Banana is an agent-native figure workflow for engineering and CS papers. It handles conceptual diagrams and exact publication plots with separate pipelines instead of treating paper figures as a single generic image-generation task.
 
 ## Notes
 

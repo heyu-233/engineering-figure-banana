@@ -185,11 +185,9 @@ Recommended doc strategy:
 - `README.en.md`: full English guide
 - gradually make key docs such as `providers.md` bilingual as well
 
-## One-Line Public Description
+## Project Summary
 
-Use this line in social posts or the repo intro:
-
-> Engineering Figure Banana is an agent-native figure workflow for engineering and CS papers: image models for conceptual diagrams, local rendering for exact quantitative plots.
+Engineering Figure Banana is an agent-native figure workflow for engineering and CS papers: image models for conceptual diagrams, local rendering for exact quantitative plots. It emphasizes controllable figure production, publication-oriented constraints, and exact quantitative rendering instead of treating every paper figure as the same generic image-generation problem.
 
 ## Notes
 

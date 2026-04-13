@@ -1,179 +1,100 @@
 # Engineering Figure Banana
 
-A Codex-native skill for generating engineering paper figures inside academic workflows. It focuses on computer science, electronics, algorithms, embedded systems, and publication-style benchmark plots.
+[中文说明](./README.zh-CN.md) | [English Guide](./README.en.md)
+
+Engineering Figure Banana is not a general-purpose academic figure platform. It is an agent-native skill for engineering and CS paper figures, designed to split conceptual diagrams and exact quantitative plots into different workflows.
+
+`engineering-figure-banana` 不是一个通用配图平台，而是一个面向 agent 工作流的工程论文配图 skill，专门把概念图和精确定量图分开处理。
+
+## Why This Skill
+
+- Agent-native: designed for Codex and research-agent workflows instead of a standalone paper-upload product
+- Two-mode workflow: `image mode` for conceptual diagrams, `plot mode` for exact publication plots
+- Engineering-first: optimized for CS, systems, algorithms, electronics, and embedded-paper visuals
+- Publication-aware: prioritizes white backgrounds, readable labels, compact palettes, and export-ready figures
 
 ## Example Gallery
 
-These showcase examples are intentionally placed near the top so visitors can judge output quality immediately.
+These examples are placed near the top so visitors can judge the visual direction immediately.
 
 | Example | Description |
 | --- | --- |
 | ![Federated open-vocabulary driving figure](docs/examples/federated-open-vocab-driving-2k-1.png) | High-density autonomous-driving overview redesigned from a reference-inspired concept using the high-resolution path |
 | ![Cooperative object tracking figure](docs/examples/cooperative-object-tracking-2k-1.png) | Modern cooperative perception and tracking pipeline with a newly organized layout |
 | ![Multi-agent safety overview figure](docs/examples/multi-agent-safety-overview-2k-1.png) | Taxonomy-style multi-agent safety overview restructured into a new hierarchy for showcase use |
-| ![Linux kernel system diagram](docs/examples/linux-kernel-system-1.jpg) | Existing engineering showcase example for a dense systems overview |
+| ![Linux kernel system diagram](docs/examples/linux-kernel-system-1.jpg) | Dense systems overview example for engineering-style architecture composition |
+| ![Health monitoring and early warning deployment scenarios](docs/examples/health-monitoring-early-warning-reference.jpg) | Supplementary user-provided reference example showing dense deployment-scenario composition for health monitoring and safety warning systems |
 
-See `docs/examples/README.md` for the source prompt files and example notes.
+See [docs/examples/README.md](docs/examples/README.md) for example notes and source references.
 
-## Token Safety / No Silent Fallback
+## Positioning
 
-If you explicitly ask for `pro-2k`, `2K`, high-resolution, or final-export quality, this project is expected to protect your token budget instead of silently downgrading behind your back.
+This project is intentionally lighter than a full platform:
 
-- High-resolution requests should use the configured high-resolution path, not an unannounced lower-tier substitute
-- If the high-resolution path fails because of missing config, rate limiting, timeout, network trouble, or upstream errors, generation should stop intentionally
-- The workflow must not silently fall back to a cheaper or lower-tier model, because that can waste tokens and produce the wrong quality tier
-- After a high-resolution failure, the correct next step is to ask the human whether to retry high-resolution generation or explicitly allow fallback
+- It does not center on uploading full papers into a web app
+- It does center on controllable figure production inside an existing research workflow
+- It does separate conceptual figures from exact plots instead of treating every figure as the same prompt problem
+- It is designed for people who already know what figure they need and want a cleaner production path
 
-## What This Project Is
+Recommended upstream handoff:
 
-This repository is designed for:
+1. Use `ai-research-writing-guide` to decide what claim the figure should support
+2. Use `engineering-figure-banana` to render the final diagram or plot
+
+## Two Modes
+
+### `image mode`
+
+Best for:
 
 - system architecture diagrams
 - algorithm workflows
-- electronics and embedded-system schematics
-- graphical abstracts for engineering or AI methods
-- benchmark charts, ablation plots, heatmaps, scatter plots, and other publication figures
+- graphical abstracts
+- electronics or embedded-system schematics
+- reference-inspired redraws and layout exploration
 
-It is intentionally optimized for:
+Use this when visual structure matters more than exact numeric geometry.
 
-- Codex-centered workflows rather than a standalone web app
-- engineering and CS papers rather than broad all-discipline academic illustration
-- Chinese and English technical papers
-- both conceptual figures and exact quantitative plots
-- provider-neutral Gemini-compatible backends
+### `plot mode`
 
-## 5-Minute Quick Start
+Best for:
 
-1. Copy or clone this repository into `$HOME/.codex/skills/engineering-figure-banana`
-2. Copy the env and key templates into `$HOME/.codex/secrets/` and fill in your provider values
-3. Run:
-   - `& "$HOME/.codex/skills/engineering-figure-banana/scripts/install_and_test.ps1"`
-   - then `& "$HOME/.codex/skills/engineering-figure-banana/scripts/wizard.ps1"` or the minimal command below
+- benchmark bar charts
+- ablation plots
+- trend curves
+- heatmaps
+- scatter plots
+- multi-panel quantitative figures
 
-Fastest Windows path:
+Use this when values, axes, and geometric fidelity must stay exact.
+
+Rule of thumb:
+
+- if numeric truth matters, use `plot mode`
+- if the figure is conceptual, use `image mode`
+- if a figure mixes both, render the quantitative panels locally first and keep image generation for the explanatory panels
+
+## Repository Guides
+
+- [README.zh-CN.md](./README.zh-CN.md): Chinese overview, setup, examples, and messaging
+- [README.en.md](./README.en.md): English overview, setup, examples, and positioning
+- [SKILL.md](./SKILL.md): internal Codex skill instructions
+- [providers.md](./providers.md): provider-neutral API configuration notes
+- [docs/examples/README.md](./docs/examples/README.md): showcase notes
+
+## Quick Start
 
 ```powershell
 & "$HOME/.codex/skills/engineering-figure-banana/scripts/install_and_test.ps1" -RunSetupCheck
 ```
 
-## Recommended Workflow
-
-This project works best as a two-stage paper-figure workflow:
-
-1. Use `ai-research-writing-guide` to decide what the figure should prove, which figure type is best, what panels or modules are required, and what caption logic should be preserved.
-2. Use `engineering-figure-banana` to turn that figure brief into an actual diagram or plot.
-
-Recommended handoff fields:
-
-- figure goal
-- figure type
-- core modules or panel plan
-- must-keep terms, variables, and abbreviations
-- output language
-- caption idea or message
-- visual constraints
-
-One-line workflow example:
-
-```text
-First use ai-research-writing-guide to produce a figure brief from my paper section, then use engineering-figure-banana to generate the final figure. Keep the figure publication-style, preserve standard English symbols, and do not silently downgrade if high-res generation fails.
-```
-
-## Repository Layout
-
-- `SKILL.md` - internal skill instructions for Codex
-- `agents/openai.yaml` - skill metadata for discovery
-- `scripts/` - installation, setup checks, wizard, prompt builders, generation, and plotting tools
-- `references/` - engineering templates and publication-style references
-- `examples/figure-briefs/` - reusable figure brief templates
-- `docs/examples/` - repository-safe showcase outputs and their source prompts or requests
-- `providers.md` - provider-neutral compatibility notes
-- `secrets/nanobanana.env.example` - copyable local env template
-
-## Prerequisites / Requirements
-
-- Python 3.10 or newer is recommended
-- Codex skill runtime is required if you want this repository to be discovered and invoked as a Codex skill
-- Node.js is optional; `scripts/generate_image.js` exists for users who prefer the JavaScript path
-- PowerShell is recommended on Windows for loading secrets, setup checks, and the wizard
-
-Install Python dependencies with:
+Then either:
 
 ```powershell
-pip install -r requirements.txt
+& "$HOME/.codex/skills/engineering-figure-banana/scripts/wizard.ps1"
 ```
 
-## Modes
-
-The skill supports two working modes:
-
-- `image mode`
-  - Best for conceptual figures such as system architecture diagrams, algorithm workflows, graphical abstracts, and electronics schematics
-  - Use this when visual structure matters more than exact numeric geometry
-- `plot mode`
-  - Best for benchmark charts, ablation plots, heatmaps, scatter plots, trend curves, and other quantitative publication figures
-  - Use this when exact values, axes, and geometric fidelity matter
-
-Rule of thumb:
-
-- If numeric truth matters, use `plot mode`
-- If the figure is conceptual or schematic, use `image mode`
-- If a figure mixes both, keep the quantitative panels in `plot mode` and use `image mode` only for the explanatory panels
-
-## Install and First Run
-
-### 1) Copy the skill
-
-Put this repository at:
-
-- `$HOME/.codex/skills/engineering-figure-banana`
-
-### 2) Configure local secrets
-
-Create these local files outside the repo:
-
-- `$HOME/.codex/secrets/nanobanana.env`
-- `$HOME/.codex/secrets/nanobanana_api_key.txt`
-
-You can start from:
-
-- `secrets/nanobanana.env.example`
-- `secrets/nanobanana_api_key.txt.example`
-
-Official Google example:
-
-```env
-NANOBANANA_BASE_URL=https://generativelanguage.googleapis.com
-NANOBANANA_DEFAULT_MODEL=gemini-3.1-flash-image-preview
-NANOBANANA_HIGHRES_MODEL=gemini-3.1-flash-image-preview
-NANOBANANA_AUTH_MODE=google
-```
-
-Third-party relay example:
-
-```env
-NANOBANANA_BASE_URL=https://your-relay.example.com
-NANOBANANA_DEFAULT_MODEL=<your-default-image-model>
-NANOBANANA_HIGHRES_MODEL=<your-highres-image-model>
-NANOBANANA_AUTH_MODE=bearer
-NANOBANANA_ALLOW_THIRD_PARTY=1
-```
-
-The API key file should contain only your current valid key on one line.
-
-### 3) Run setup check
-
-```powershell
-& "$HOME/.codex/skills/engineering-figure-banana/scripts/check_setup.ps1"
-```
-
-### 4) Load local env
-
-```powershell
-. "$HOME/.codex/skills/engineering-figure-banana/scripts/load_nanobanana_env.ps1"
-```
-
-### 5) Run a minimal image test
+or run a direct prompt test:
 
 ```powershell
 python "$HOME/.codex/skills/engineering-figure-banana/scripts/generate_image.py" `
@@ -182,97 +103,14 @@ python "$HOME/.codex/skills/engineering-figure-banana/scripts/generate_image.py"
   "A retrieval-augmented generation system with OCR, chunking, embedding, vector search, reranking, and answer synthesis."
 ```
 
-### 6) Or use the wizard
+## Key Message for Promotion
 
-```powershell
-& "$HOME/.codex/skills/engineering-figure-banana/scripts/wizard.ps1"
-```
+If you want a short public description for social posts or the repo intro:
 
-## Chinese Paper Support
-
-This repository is intentionally friendly to Chinese engineering papers rather than treating Chinese labels as an afterthought.
-
-- If `--lang` is omitted, Chinese technical background defaults to Chinese figure labels
-- Chinese labels can be generated directly in the figure and should be kept concise and readable
-- Standard English symbols, abbreviations, protocol names, model names, and formula variables should be preserved where they improve technical clarity
-- The workflow is designed for Chinese and English mixed academic writing rather than forcing awkward full-Chinese replacements for terms like `FFT`, `CNN`, `IoU`, `loss`, or variables like `x`, `y`, `t`, and `sigma`
-
-Good Chinese-figure prompt habits:
-
-- use concise Chinese labels
-- keep larger text regions and balanced spacing when the figure has many labels
-- preserve English abbreviations and formula variables when they are standard notation
-- keep the figure readable at single-column paper width
-
-## Provider Compatibility
-
-This skill is provider-neutral, but the official Google Gemini endpoint is still the reference configuration for public docs.
-
-| Provider type | Base URL pattern | Auth mode | Need `NANOBANANA_ALLOW_THIRD_PARTY` | High-res config | Notes |
-| --- | --- | --- | --- | --- | --- |
-| Official Google Gemini | `https://generativelanguage.googleapis.com` | `google` | No | Optional `NANOBANANA_HIGHRES_MODEL` | Recommended public reference pattern |
-| Gemini-compatible relay | provider-specific | `bearer` or provider-specific | Usually yes | Usually provider-specific | Replace example endpoint and model names with your own values |
-| Custom internal provider | internal endpoint | provider-specific | Usually yes | provider-specific | Validate data handling and API compatibility first |
-
-For more detail, see `providers.md`.
-
-## Example Outputs / Screenshots
-
-The main gallery is shown near the top of this README so visitors can evaluate the visual quality quickly. Additional example notes and source prompts live in `docs/examples/README.md`.
-
-## Figure Brief Templates
-
-If you are not sure how to write a good prompt, start from `examples/figure-briefs/`.
-
-Included starter briefs:
-
-- `system-architecture-en.md`
-- `system-architecture-zh.md`
-- `algorithm-workflow-en.md`
-- `engineering-pipeline-zh.md`
-- `benchmark-plot-request.md`
-
-These are designed to bridge the planning step from `ai-research-writing-guide` into the production step in this skill.
-
-## Troubleshooting
-
-### `nanobanana_api_key.txt` not found
-
-- Make sure the file exists at `$HOME/.codex/secrets/nanobanana_api_key.txt`
-- If you set `NANOBANANA_API_KEY_FILE`, make sure it points to a real file on the current machine
-- If you migrated from another computer, remove stale absolute paths from `nanobanana.env`
-
-### `NANOBANANA_BASE_URL` not set
-
-- Add `NANOBANANA_BASE_URL=...` to `$HOME/.codex/secrets/nanobanana.env`
-- Or pass `--base-url` directly to `generate_image.py`
-- Then reload the env in the same shell session with `load_nanobanana_env.ps1`
-
-### Third-party relay blocked by safety checks
-
-- The generator refuses to send keys or files to non-official Gemini-compatible endpoints unless you explicitly allow it
-- Set `NANOBANANA_ALLOW_THIRD_PARTY=1` in `nanobanana.env`
-- Or pass `--allow-third-party` for that command
-- Only do this when you trust the relay you are using
-
-### High-resolution request failed
-
-- If you asked for `pro-2k`, `2K`, or final-export quality, the scripts now stop intentionally when that path fails
-- They do not silently fall back to the default model
-- Common causes are missing `NANOBANANA_HIGHRES_MODEL`, provider-side rate limiting, or temporary upstream/network errors
-- Decide explicitly whether to retry the high-resolution request or allow fallback for that specific run
-- If you do want fallback, pass an explicit `--model` override or temporarily change your env after making that decision consciously
-
-### Chinese text is too dense or blurry
-
-- Shorten labels and remove paragraph-like text inside the image
-- Ask for larger label regions, cleaner spacing, and centered labels
-- Keep descriptive labels in Chinese, but preserve technical abbreviations and formula variables in English
-- For exact charts, use `plot mode` when geometry matters
+> Engineering Figure Banana is an agent-native figure workflow for engineering and CS papers. It handles conceptual diagrams and exact publication plots with separate pipelines instead of treating paper figures as a single generic image-generation task.
 
 ## Notes
 
-- Keep real API keys out of the repository
-- Prefer the plotting scripts for exact quantitative figures
-- Keep provider-specific endpoints, pricing assumptions, and private relay details out of the public repository unless they are clearly marked as optional examples
-- This repository is intentionally lighter than a full paper-upload platform; it is optimized for Codex users who want a controllable figure workflow inside an existing research environment
+- Keep real API keys outside the repository
+- Prefer local plotting for exact quantitative figures
+- Keep provider-specific private relay details out of public docs unless they are clearly marked as optional examples

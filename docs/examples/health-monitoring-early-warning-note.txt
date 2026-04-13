@@ -1,0 +1,9 @@
+Supplementary reference image for the public gallery.
+
+This file is a user-provided example of a dense health-monitoring and early-warning deployment scenario figure. It is included to expand the repository's visual reference set for complex engineering layouts, multimodal sensing flows, cloud-edge monitoring, and closed-loop warning actions.
+
+Interpretation note:
+
+- this image is included as a supplementary reference example
+- it should not be presented as an automatically generated repository output unless a matching prompt and generation record are added later
+- it is useful for showing the type of multi-region, multi-actor, high-density engineering composition the skill aims to support

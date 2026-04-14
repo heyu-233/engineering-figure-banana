@@ -162,6 +162,24 @@ git clone https://github.com/Leey21/awesome-ai-research-writing $HOME/.codex/ski
 - 如果图是概念表达，用 `image mode`
 - 如果一张图里两者都有，先本地渲染定量部分，再补概念部分
 
+## Platform Support
+
+当前平台支持状态建议保守理解：
+
+- 主要验证平台：Windows
+- Windows 辅助脚本：优先支持
+- 核心 Python 工作流：理论上可运行于 Windows / macOS / Linux
+- PowerShell 辅助脚本：以 Windows 为主，不建议 macOS / Linux 用户依赖这些脚本完成安装
+
+仓库里最容易跨平台使用的部分是：
+
+- `scripts/build_engineering_figure_prompt.py`
+- `scripts/build_plot_spec.py`
+- `scripts/plot_publication_figure.py`
+- `scripts/generate_image.py`
+
+如果你使用的是 macOS 或 Linux，建议优先走下面的手动安装路径，而不是依赖 PowerShell 辅助脚本。
+
 ## Windows 最短安装路径
 
 如果你第一次安装，只想走一条最短路径，可以直接在 PowerShell 里按顺序执行：
@@ -195,6 +213,38 @@ Copy-Item $HOME/.codex/skills/engineering-figure-banana/secrets/nanobanana_api_k
 2. 关闭当前 Codex 会话
 3. 重新打开 Codex
 4. 再测试 skill 是否被识别
+
+## macOS / Linux Manual Setup
+
+虽然仓库里的辅助脚本主要面向 Windows，但核心工作流在 macOS 和 Linux 上仍然可以使用。
+
+推荐手动安装方式：
+
+```bash
+git clone https://github.com/heyu-233/engineering-figure-banana ~/.codex/skills/engineering-figure-banana
+mkdir -p ~/.codex/secrets
+cp ~/.codex/skills/engineering-figure-banana/secrets/nanobanana.env.example ~/.codex/secrets/nanobanana.env
+cp ~/.codex/skills/engineering-figure-banana/secrets/nanobanana_api_key.txt.example ~/.codex/secrets/nanobanana_api_key.txt
+python3 -m pip install -r ~/.codex/skills/engineering-figure-banana/requirements.txt
+```
+
+然后：
+
+1. 编辑 `~/.codex/secrets/nanobanana.env`
+2. 把 `~/.codex/secrets/nanobanana_api_key.txt` 里的占位符换成真实 key
+3. 重启 Codex
+4. 跑一个最小 Python 脚本测试
+
+例如：
+
+```bash
+python3 ~/.codex/skills/engineering-figure-banana/scripts/generate_image.py \
+  --figure-template system-architecture \
+  --print-prompt \
+  "A retrieval-augmented generation system with OCR, chunking, embedding, vector search, reranking, and answer synthesis."
+```
+
+如果你不想依赖加载脚本，也可以在自己的 shell 会话里手动 `export` 环境变量，或者从自己的 shell 配置文件中加载。
 
 ## 快速开始
 

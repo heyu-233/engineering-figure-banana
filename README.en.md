@@ -163,6 +163,24 @@ Rule of thumb:
 - if the figure is conceptual, use `image mode`
 - if a figure mixes both, render the quantitative panels locally first and keep image generation for explanatory panels
 
+## Platform Support
+
+Current support status is intentionally documented in a conservative way:
+
+- primary tested platform: Windows
+- Windows helper scripts: supported first
+- core Python workflow: expected to work on Windows, macOS, and Linux
+- PowerShell helper scripts: Windows-first, not the recommended path for macOS / Linux users
+
+The most portable parts of the repository are:
+
+- `scripts/build_engineering_figure_prompt.py`
+- `scripts/build_plot_spec.py`
+- `scripts/plot_publication_figure.py`
+- `scripts/generate_image.py`
+
+If you are on macOS or Linux, prefer the manual setup path below instead of relying on the PowerShell helper scripts.
+
 ## Shortest Windows Install Path
 
 If you want the shortest first-time setup path, run these PowerShell commands in order:
@@ -196,6 +214,38 @@ Recommended sequence:
 2. close the current Codex session
 3. reopen Codex
 4. then verify the skill is recognized
+
+## macOS / Linux Manual Setup
+
+The core workflow can still be used on macOS and Linux even though the helper scripts in this repository are Windows-first.
+
+Recommended manual setup:
+
+```bash
+git clone https://github.com/heyu-233/engineering-figure-banana ~/.codex/skills/engineering-figure-banana
+mkdir -p ~/.codex/secrets
+cp ~/.codex/skills/engineering-figure-banana/secrets/nanobanana.env.example ~/.codex/secrets/nanobanana.env
+cp ~/.codex/skills/engineering-figure-banana/secrets/nanobanana_api_key.txt.example ~/.codex/secrets/nanobanana_api_key.txt
+python3 -m pip install -r ~/.codex/skills/engineering-figure-banana/requirements.txt
+```
+
+Then:
+
+1. edit `~/.codex/secrets/nanobanana.env`
+2. replace the placeholder in `~/.codex/secrets/nanobanana_api_key.txt`
+3. restart Codex
+4. run a minimal Python script test
+
+Example:
+
+```bash
+python3 ~/.codex/skills/engineering-figure-banana/scripts/generate_image.py \
+  --figure-template system-architecture \
+  --print-prompt \
+  "A retrieval-augmented generation system with OCR, chunking, embedding, vector search, reranking, and answer synthesis."
+```
+
+If you prefer environment variables over a loader script, export them manually in your shell session or source them from your own shell config.
 
 ## Quick Start
 

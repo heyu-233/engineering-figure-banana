@@ -6,6 +6,14 @@ Engineering Figure Banana is not a general-purpose academic figure platform. It 
 
 `engineering-figure-banana` 不是一个通用配图平台，而是一个面向 agent 工作流的工程论文配图 skill，专门把概念图和精确定量图分开处理。
 
+## Support Matrix
+
+| Platform | Status | Notes |
+| --- | --- | --- |
+| Windows | tested | primary tested platform, helper scripts supported first |
+| macOS | reported working | successful installs have already been reported, including AI-assisted setup |
+| Linux | expected to work for core Python workflow | some environments may still need small manual adjustments |
+
 ## Why This Skill
 
 - Agent-native: designed for Codex and research-agent workflows instead of a standalone paper-upload product

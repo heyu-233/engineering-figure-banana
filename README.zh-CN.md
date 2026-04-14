@@ -68,6 +68,48 @@
 - output language
 - visual constraints
 
+## 可选上游 skill：ai-research-writing-guide
+
+`ai-research-writing-guide` 是推荐的上游 skill，但不是强制依赖。
+
+它主要负责：
+
+- 先从论文内容里梳理 figure goal
+- 帮你判断该用什么图
+- 产出 panel plan / module plan
+- 保留 caption logic 和 must-keep terms
+
+`engineering-figure-banana` 本身可以单独使用。  
+如果你已经知道自己要画什么图，可以直接使用本 skill，不需要先安装上游 skill。
+
+如果你想走更完整的工作流：
+
+`论文内容 -> figure brief -> 最终出图`
+
+那就建议额外安装 `ai-research-writing-guide`。
+
+推荐安装位置：
+
+- `$HOME/.codex/skills/ai-research-writing-guide`
+
+例如：
+
+```powershell
+git clone <repo-url> $HOME/.codex/skills/ai-research-writing-guide
+```
+
+安装后建议：
+
+1. 重启 Codex
+2. 在对话里显式提到 `ai-research-writing-guide`
+3. 先做一次 figure brief 或段落分析测试
+
+例如：
+
+- `用 ai-research-writing-guide 帮我从这段方法部分整理一个 figure brief`
+
+如果 Codex 能按这个上游写作/规划 workflow 响应，说明识别正常。
+
 ## 仓库结构
 
 - `README.md`：GitHub 首页双语 landing

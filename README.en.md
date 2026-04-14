@@ -69,6 +69,48 @@ Recommended upstream handoff fields:
 - output language
 - visual constraints
 
+## Optional Upstream Skill: ai-research-writing-guide
+
+`ai-research-writing-guide` is a recommended upstream skill, not a hard dependency.
+
+It is useful for:
+
+- extracting a figure goal from paper text
+- deciding what figure type best fits the claim
+- drafting a panel plan or module plan
+- preserving caption logic and must-keep terms
+
+`engineering-figure-banana` works on its own.  
+If you already know what figure you want to make, you can use this skill directly without installing the upstream one.
+
+If you want a fuller workflow like:
+
+`paper text -> figure brief -> final figure`
+
+then it is worth installing `ai-research-writing-guide` as well.
+
+Recommended install path:
+
+- `$HOME/.codex/skills/ai-research-writing-guide`
+
+For example:
+
+```powershell
+git clone <repo-url> $HOME/.codex/skills/ai-research-writing-guide
+```
+
+After installation, it is recommended to:
+
+1. restart Codex
+2. explicitly mention `ai-research-writing-guide` in chat
+3. run one figure-brief or paragraph-analysis test
+
+Example:
+
+- `Use ai-research-writing-guide to turn this method section into a figure brief`
+
+If Codex responds using the upstream writing/planning workflow, recognition is working.
+
 ## Repository Layout
 
 - `README.md`: bilingual landing page

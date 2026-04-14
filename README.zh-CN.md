@@ -95,7 +95,7 @@
 例如：
 
 ```powershell
-git clone <repo-url> $HOME/.codex/skills/ai-research-writing-guide
+git clone https://github.com/Leey21/awesome-ai-research-writing $HOME/.codex/skills/ai-research-writing-guide
 ```
 
 安装后建议：
@@ -109,6 +109,13 @@ git clone <repo-url> $HOME/.codex/skills/ai-research-writing-guide
 - `用 ai-research-writing-guide 帮我从这段方法部分整理一个 figure brief`
 
 如果 Codex 能按这个上游写作/规划 workflow 响应，说明识别正常。
+
+### 第三方上游说明
+
+- `ai-research-writing-guide` 是推荐配合使用的上游 skill
+- 其写作侧内容来源参考第三方仓库 [Leey21/awesome-ai-research-writing](https://github.com/Leey21/awesome-ai-research-writing)
+- 本项目仅说明推荐的工作流集成方式，不声明对该第三方仓库的所有权，也不保证其结构、可用性或未来版本始终保持不变
+- 如果你选择直接安装该第三方仓库，请先确认其当前结构仍然适合作为 Codex skill 使用
 
 ## 仓库结构
 

@@ -96,7 +96,7 @@ Recommended install path:
 For example:
 
 ```powershell
-git clone <repo-url> $HOME/.codex/skills/ai-research-writing-guide
+git clone https://github.com/Leey21/awesome-ai-research-writing $HOME/.codex/skills/ai-research-writing-guide
 ```
 
 After installation, it is recommended to:
@@ -110,6 +110,13 @@ Example:
 - `Use ai-research-writing-guide to turn this method section into a figure brief`
 
 If Codex responds using the upstream writing/planning workflow, recognition is working.
+
+### Third-Party Upstream Note
+
+- `ai-research-writing-guide` is a recommended upstream skill
+- its writing-side content is based on the third-party repository [Leey21/awesome-ai-research-writing](https://github.com/Leey21/awesome-ai-research-writing)
+- this repository only documents the recommended workflow integration and does not claim ownership of the third-party project, nor guarantee its structure, availability, or future compatibility
+- if you install the third-party repository directly, verify that its current structure is still compatible with Codex skill discovery
 
 ## Repository Layout
 

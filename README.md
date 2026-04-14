@@ -88,8 +88,8 @@ For installation-friendly details, start with:
 - `README.en.md` -> `Shortest Windows Install Path` / `How To Verify Codex Recognizes The Skill`
 - `README.zh-CN.md` -> `可选上游 skill：ai-research-writing-guide`
 - `README.en.md` -> `Optional Upstream Skill: ai-research-writing-guide`
-- `README.zh-CN.md` -> `Platform Support` / `macOS / Linux Manual Setup`
-- `README.en.md` -> `Platform Support` / `macOS / Linux Manual Setup`
+- `README.zh-CN.md` -> `Platform Support` / `macOS / Linux Setup Notes`
+- `README.en.md` -> `Platform Support` / `macOS / Linux Setup Notes`
 
 ## Quick Start
 

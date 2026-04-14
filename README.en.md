@@ -165,12 +165,12 @@ Rule of thumb:
 
 ## Platform Support
 
-Current support status is intentionally documented in a conservative way:
+Windows is still the primary tested platform, but the core workflow is not limited to Windows.
 
-- primary tested platform: Windows
-- Windows helper scripts: supported first
-- core Python workflow: expected to work on Windows, macOS, and Linux
-- PowerShell helper scripts: Windows-first, not the recommended path for macOS / Linux users
+- users have already reported successful installation and use on macOS
+- some setups can be completed with AI-assisted installation rather than fully manual steps
+- the core Python workflow usually works on Windows, macOS, and Linux
+- the main caveat is that some helper scripts are still more Windows / PowerShell-oriented
 
 The most portable parts of the repository are:
 
@@ -179,7 +179,7 @@ The most portable parts of the repository are:
 - `scripts/plot_publication_figure.py`
 - `scripts/generate_image.py`
 
-If you are on macOS or Linux, prefer the manual setup path below instead of relying on the PowerShell helper scripts.
+For macOS / Linux users, the notes below are meant as a fallback guide and environment reference, not as the only supported path.
 
 ## Shortest Windows Install Path
 
@@ -215,11 +215,12 @@ Recommended sequence:
 3. reopen Codex
 4. then verify the skill is recognized
 
-## macOS / Linux Manual Setup
+## macOS / Linux Setup Notes
 
-The core workflow can still be used on macOS and Linux even though the helper scripts in this repository are Windows-first.
+The core workflow can be used on macOS and Linux, and successful installs have already been reported.
 
-Recommended manual setup:
+In many cases, normal installation or AI-assisted setup is enough.  
+If your environment still needs manual adjustment, the following steps are a reliable fallback:
 
 ```bash
 git clone https://github.com/heyu-233/engineering-figure-banana ~/.codex/skills/engineering-figure-banana
@@ -246,6 +247,13 @@ python3 ~/.codex/skills/engineering-figure-banana/scripts/generate_image.py \
 ```
 
 If you prefer environment variables over a loader script, export them manually in your shell session or source them from your own shell config.
+
+Typical reasons you might still need small manual adjustments:
+
+- shell differences
+- Python environment differences
+- local proxy settings
+- provider-specific API or auth settings
 
 ## Quick Start
 

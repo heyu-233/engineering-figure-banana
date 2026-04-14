@@ -164,12 +164,12 @@ git clone https://github.com/Leey21/awesome-ai-research-writing $HOME/.codex/ski
 
 ## Platform Support
 
-当前平台支持状态建议保守理解：
+目前主要验证平台仍然是 Windows，但 `engineering-figure-banana` 的核心工作流并不局限于 Windows。
 
-- 主要验证平台：Windows
-- Windows 辅助脚本：优先支持
-- 核心 Python 工作流：理论上可运行于 Windows / macOS / Linux
-- PowerShell 辅助脚本：以 Windows 为主，不建议 macOS / Linux 用户依赖这些脚本完成安装
+- 已经有用户在 macOS 上成功安装并使用
+- 有些场景下也可以通过 AI 辅助完成安装，而不一定需要全程手动配置
+- 核心 Python 工作流通常可以运行在 Windows / macOS / Linux 上
+- 需要注意的是，部分辅助脚本目前仍然更偏向 Windows / PowerShell
 
 仓库里最容易跨平台使用的部分是：
 
@@ -178,7 +178,7 @@ git clone https://github.com/Leey21/awesome-ai-research-writing $HOME/.codex/ski
 - `scripts/plot_publication_figure.py`
 - `scripts/generate_image.py`
 
-如果你使用的是 macOS 或 Linux，建议优先走下面的手动安装路径，而不是依赖 PowerShell 辅助脚本。
+如果你使用的是 macOS 或 Linux，下面的小节更适合作为 fallback 指南和环境参考，而不是唯一安装方式。
 
 ## Windows 最短安装路径
 
@@ -214,11 +214,12 @@ Copy-Item $HOME/.codex/skills/engineering-figure-banana/secrets/nanobanana_api_k
 3. 重新打开 Codex
 4. 再测试 skill 是否被识别
 
-## macOS / Linux Manual Setup
+## macOS / Linux Setup Notes
 
-虽然仓库里的辅助脚本主要面向 Windows，但核心工作流在 macOS 和 Linux 上仍然可以使用。
+虽然仓库里的部分辅助脚本主要面向 Windows，但核心工作流在 macOS 和 Linux 上是可以使用的，而且已经有成功安装案例。
 
-推荐手动安装方式：
+很多情况下，正常安装流程或 AI 辅助安装就已经足够。  
+如果你的环境仍然需要手动调整，可以参考下面这组 fallback 步骤：
 
 ```bash
 git clone https://github.com/heyu-233/engineering-figure-banana ~/.codex/skills/engineering-figure-banana
@@ -245,6 +246,13 @@ python3 ~/.codex/skills/engineering-figure-banana/scripts/generate_image.py \
 ```
 
 如果你不想依赖加载脚本，也可以在自己的 shell 会话里手动 `export` 环境变量，或者从自己的 shell 配置文件中加载。
+
+常见需要额外手动调整的原因包括：
+
+- shell 差异
+- Python 环境差异
+- 本地代理配置
+- provider 侧 API 或认证方式差异
 
 ## 快速开始
 
